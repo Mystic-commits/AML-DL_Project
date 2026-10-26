@@ -18,6 +18,8 @@ Use 3 minutes for the problem and dataset; 5 minutes for ML features, splitting 
 8. **Is this a counterfactual system?** It answers population interventions. Individual counterfactuals need structural mechanisms and an abduction/action/prediction procedure that are not provided.
 9. **What do extraction metrics establish?** Coverage on a small authored regression fixture. They do not establish generalization to scientific abstracts or news.
 10. **What remains limited?** The nonrandom training prefix, few test premise groups, low positive precision, narrow parser, synthetic causal system and missing independent extraction benchmark.
+11. **What does the hypothesis-only control tell us about Corr2Cause?** Training TF-IDF on hypotheses alone scores 0.653 Macro F1 (versus 0.700 with the premise included). This shows synthetic templates carry stylistic artifacts and label priors that classical models exploit without performing causal deduction.
+12. **Why are the Text-to-DAG graph and Bayesian intervention network decoupled?** Phase 1 establishes rigorous, verifiable baselines for each component independently. Automatically parameterizing arbitrary real-world causal graphs from free text without observational data would violate causal identification assumptions.
 
 ## Demo sequence
 
