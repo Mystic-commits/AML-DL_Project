@@ -1,10 +1,10 @@
 from pathlib import Path
 import json
-import joblib
 import matplotlib.pyplot as plt
 import networkx as nx
 import pandas as pd
 import streamlit as st
+from src.runtime import FrozenReasoner
 from src.causal import extract,build_graph,query,oracle,fitted_network,observations
 ROOT=Path(__file__).parent
 st.set_page_config(page_title='Causal / Workbench',page_icon='◈',layout='wide')
@@ -20,11 +20,11 @@ h1{font-weight:500!important;letter-spacing:-2px!important;font-size:3.4rem!impo
 st.sidebar.markdown('### ◈ CAUSAL\nWORKBENCH')
 st.sidebar.caption('T094 / SECTION E / PHASE 01')
 page=st.sidebar.radio('Workspace',['Overview','Reasoning lab','Text → DAG','Intervention lab','Evaluation','Team & viva'],label_visibility='collapsed')
-st.sidebar.divider();st.sidebar.caption('LOCAL RESEARCH ENVIRONMENT\n\nClassical ML · Bayesian networks\n\n02 NOV 2026 / 15:20–15:45 / A403')
+st.sidebar.divider();st.sidebar.caption('CAUSAL RESEARCH WORKSPACE\n\nClassical ML · Bayesian networks\n\n02 NOV 2026 / 15:20–15:45 / A403')
 @st.cache_data
 def metrics(modified):return json.loads((ROOT/'artifacts/metrics.json').read_text())
 @st.cache_resource
-def reasoner(modified):return joblib.load(ROOT/'artifacts/reasoner.joblib')
+def reasoner(modified):return FrozenReasoner(ROOT/'artifacts/reasoner_snapshot.json')
 m=metrics((ROOT/"artifacts/metrics.json").stat().st_mtime_ns)
 st.markdown('<div class="eyebrow">NEURO-SYMBOLIC CAUSAL INFERENCE / PHASE 01</div>',unsafe_allow_html=True)
 if page=='Overview':
@@ -40,15 +40,15 @@ if page=='Overview':
     with right:
         st.subheader('Research boundaries')
         st.markdown('<div class="stat note">Corr2Cause is a reasoning benchmark. The lexical extractor is a separate demonstration. Bayesian probabilities are fitted to a labelled synthetic observational dataset, under its stated causal assumptions.</div>',unsafe_allow_html=True)
-        st.caption('No transformer, LLM API, deep learning, or hosted service is used.')
+        st.caption('Phase 1 uses classical ML and Bayesian inference. No LLM API or neural model is used.')
 elif page=='Reasoning lab':
     st.title('Test the claim.')
     st.caption('Binary entailment on Corr2Cause. A model score is not a probability that a causal relationship is true in the world.')
-    examples=pd.read_csv(ROOT/'artifacts/test_predictions.csv')
+    examples=pd.read_csv(ROOT/'data/demo/reasoning_examples.csv')
     idx=st.selectbox('Held-out example',range(min(20,len(examples))),format_func=lambda i:f'Example {i+1:02d}')
     text=st.text_area('Premise and hypothesis',examples.iloc[idx]['input'],height=230)
     if st.button('Evaluate statement',type='primary'):
-        model=reasoner((ROOT/"artifacts/reasoner.joblib").stat().st_mtime_ns);prediction=int(model.predict([text])[0]);score=float(model.predict_proba([text])[0,1])
+        model=reasoner((ROOT/"artifacts/reasoner_snapshot.json").stat().st_mtime_ns);prediction=int(model.predict([text])[0]);score=float(model.predict_proba([text])[0,1])
         a,b=st.columns(2);a.metric('Model decision','Entailed' if prediction else 'Not entailed');b.metric('Uncalibrated positive score',f'{score:.3f}')
         if text==examples.iloc[idx]['input']:st.caption(f"Dataset label: {int(examples.iloc[idx]['label'])} · 1 = entailed, 0 = not entailed")
         st.caption('Selected on development macro F1: '+m['selected_model'])

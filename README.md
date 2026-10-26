@@ -15,9 +15,10 @@ After recreating the environment below, run these commands from the repository r
 .venv/bin/python -m src.experiment
 .venv/bin/python -m scripts.validate_components
 .venv/bin/python -m scripts.analyze
+.venv/bin/python -m scripts.export_app_assets
 ```
 
-These commands create the model and prediction files required by the app and the data needed by the notebook and tests. The initial download requires internet access. Run the notebook after completing these commands.
+These commands create the training artifacts and data needed by the notebook and tests. The app itself includes a portable trained-model snapshot and 20 held-out demonstration inputs. The initial download requires internet access. Run the notebook after completing these commands.
 
 ## Open the application
 
@@ -49,6 +50,7 @@ Run commands from this directory:
 .venv/bin/python -m src.experiment
 .venv/bin/python -m scripts.validate_components
 .venv/bin/python -m scripts.analyze
+.venv/bin/python -m scripts.export_app_assets
 .venv/bin/python -m pytest -q
 ```
 
@@ -81,3 +83,7 @@ Monday, 2 November 2026, 3:20-3:45 PM, A403. Faculty: Sumit Kumar and Indrapal.
 Team: Yug Johri (2401010520), Vidit Sachan (2401010502), Aditya Verma (2401010040), Kaavya Gala (2401010204), Ishita Thakur (2401010195).
 
 The submission is limited to Phase 1. Contribution claims should be recorded by the team based on actual work; none have been invented. The dataset remains attributed to its authors; no new license is asserted for third-party data. Full third-party dataset copies are excluded from source control. Use the included downloader and review the source dataset terms before redistributing data.
+
+## Streamlit Community Cloud
+
+Deploy this repository’s `main` branch with `app.py` as the entry point and Python 3.12. The app includes a JSON snapshot of the fitted TF-IDF/logistic classifier, compact evaluation results and twenty demonstration examples, so startup does not download the training set or retrain models. No secrets are required. The JSON inference snapshot stores vocabulary, inverse document frequencies and classifier coefficients rather than an executable pickle. Rebuild it with `python -m scripts.export_app_assets` after retraining.
