@@ -1,89 +1,105 @@
 # Causal Workbench
 
-Phase 1 classical machine learning for Team T094, Section E.
+Phase 1 Classical Machine Learning · Team T094, Section E
 
-A local research application for Corr2Cause reasoning, reviewed text-to-DAG extraction, and Bayesian intervention queries. No neural models or API keys are needed.
+A clean, white monochrome research application for Corr2Cause reasoning, reviewed text-to-DAG extraction, and Bayesian intervention queries. Strictly classical machine learning and probabilistic graphical models (no neural models or external API keys).
 
-## First run after cloning
+---
 
-The repository contains all application and experiment source, documentation, a notebook with cleared outputs, and compact measured results. Full dataset slices, the trained estimator, prediction exports, and the virtual environment are generated locally rather than tracked.
+## Quickstart & Local Execution
 
-After recreating the environment below, run these commands from the repository root:
+The repository contains all application and experiment source code, documentation, tests, and portable evaluation assets. Full dataset slices, the trained joblib model, and the virtual environment are generated locally.
+
+### 1. Set Up the Environment
+Requires Python 3.12:
 
 ```sh
-.venv/bin/python scripts/fetch_data.py
-.venv/bin/python -m src.experiment
-.venv/bin/python -m scripts.validate_components
-.venv/bin/python -m scripts.analyze
-.venv/bin/python -m scripts.export_app_assets
+python3.12 -m venv .venv
+.venv/bin/python -m pip install -r requirements.txt
 ```
 
-These commands create the training artifacts and data needed by the notebook and tests. The app itself includes a portable trained-model snapshot and 20 held-out demonstration inputs. The initial download requires internet access. Run the notebook after completing these commands.
-
-## Open the application
-
-Double-click `run.command`, or run from this folder:
+### 2. Run the Application
+Launch the Streamlit app:
 
 ```sh
 .venv/bin/python -m streamlit run app.py --server.address 127.0.0.1
 ```
+Or double-click `run.command` on macOS. Open `http://127.0.0.1:8501`.
 
-Open http://127.0.0.1:8501. Stop the process with Control-C. This is a local preview, not a deployed website.
+The app starts immediately using the bundled JSON inference snapshot and 20 held-out Corr2Cause examples without requiring external downloads.
 
-## Recreate the environment
+---
 
-Use Python 3.12 and either pip or uv. Create a fresh environment for this checkout. The separate original local working copy already has an installed environment.
+## Reproduce Experiments from Scratch
 
-```sh
-python3.12 -m venv .venv
-.venv/bin/python -m pip install -r requirements-lock.txt
-```
-
-With uv, use `uv venv --python 3.12 .venv` and `uv pip install --python .venv/bin/python -r requirements-lock.txt`.
-
-## Reproduce the experiment
-
-Run commands from this directory:
+To reproduce all results from raw data:
 
 ```sh
+# 1. Download official Corr2Cause splits (train, dev, test)
 .venv/bin/python scripts/fetch_data.py
+
+# 2. Train classical baselines on premise-disjoint splits
 .venv/bin/python -m src.experiment
+
+# 3. Validate components (extractor, DAG cycle check, Bayesian oracle)
 .venv/bin/python -m scripts.validate_components
+
+# 4. Generate EDA visualizations and error analysis
 .venv/bin/python -m scripts.analyze
+
+# 5. Run shortcut / spurious cue diagnostic
+.venv/bin/python -m scripts.audit_shortcuts
+
+# 6. Export portable model snapshot and demo examples
 .venv/bin/python -m scripts.export_app_assets
-.venv/bin/python -m pytest -q
+
+# 7. Run test suite
+.venv/bin/python -m pytest -v
 ```
 
-The original local working copy includes the raw slices; a fresh clone must fetch them first. `notebooks/phase1_experiments.ipynb` contains a reproducible walkthrough with outputs cleared for source control. Open it with a Python environment containing the locked packages. Downloads require internet; inference on included examples and graph queries do not.
+`notebooks/phase1_experiments.ipynb` contains the reproducible interactive walkthrough.
 
-## Read the results correctly
+---
 
-The selected TF-IDF logistic model obtains 0.700 macro F1 on 1,044 retained test rows. The training set is a bounded prefix of 12,000 rows, not the whole Corr2Cause corpus. Exact premise overlap is removed from later splits. Full metrics and the group-bootstrap interval are in `artifacts/metrics.json`.
+## Key Experimental Results
 
-Corr2Cause labels reasoning entailment, not free-text causal relations. The lexical extractor is evaluated only on 16 authored regression documents. The Bayesian demonstration uses 6,000 seeded synthetic observations with a known generating DAG. The reviewed text graph remains separate from that probability model. These boundaries are visible throughout the application and report.
+- **Selected Model**: TF-IDF (unigrams + bigrams) with balanced Logistic Regression achieves **0.700 test macro F1** on 1,044 retained test rows (positive precision: 0.392, recall: 0.923).
+- **Baseline Comparison**: Majority baseline achieves 0.460 macro F1 (0.0 recall); Naive Bayes achieves 0.465; Unigram ablation achieves 0.521.
+- **Premise Grouping**: Verbatim premise overlap is strictly purged across splits.
+- **Shortcut Diagnostic**: A hypothesis-only control model reaches **0.653 macro F1** without seeing the premise, demonstrating that a large portion of benchmark score stems from template wording artifacts.
+- **Intervention Accuracy**: Estimated $P(\text{wet} \mid do(\text{sprinkler}=s))$ matches the ground-truth generating oracle within 0.011 absolute error.
 
-## Project map
+See [`docs/production_audit.md`](docs/production_audit.md) for detailed verification logs and identified methodological limits.
 
-- `app.py`: six-page dark Streamlit workspace.
-- `src/experiment.py`: train-only features, classical baselines, split audit and model selection.
-- `src/causal.py`: provenance, aliases, graph checks, synthetic observations and inference.
-- `scripts/`: source fetching, diagnostics and component validation.
-- `data/raw/`: source manifest and hashes; fetch the dataset slices locally.
-- `data/processed/`: retained premise-disjoint splits generated locally.
-- `data/extraction_gold.json`: authored extraction regression fixture.
-- `artifacts/`: compact measured outputs and figures; generate the estimator and prediction files locally.
-- `notebooks/`: reproducible walkthrough with outputs cleared.
-- `docs/`: report, literature notes, presentation and viva guide.
-- `tests/`: meaningful checks of leakage, causal behavior and the interface.
+---
 
-## Evaluation
+## Project Structure
 
-Monday, 2 November 2026, 3:20-3:45 PM, A403. Faculty: Sumit Kumar and Indrapal.
+- `app.py`: Six-page white monochrome Streamlit workspace with high-contrast black rules.
+- `.streamlit/config.toml`: Clean white theme configuration.
+- `src/experiment.py`: Premise-disjoint splitting, classical ML training, bootstrap CI, and model selection.
+- `src/runtime.py`: Portable zero-pickle inference snapshot loader (`FrozenReasoner`).
+- `src/causal.py`: Lexical relation extraction, graph cycle/self-loop rejection, synthetic SCM, and do-calculus inference.
+- `scripts/`:
+  - `fetch_data.py`: Downloads pinned Corr2Cause revision from HuggingFace with atomic writes.
+  - `validate_components.py`: Evaluates extractor, DAG, and intervention queries against gold fixtures.
+  - `analyze.py`: Computes EDA statistics, generates plots, and extracts top feature weights.
+  - `audit_shortcuts.py`: Hypothesis-only control experiment measuring spurious cue reliance.
+  - `export_app_assets.py`: Generates portable JSON model snapshot and demo data.
+- `artifacts/`: Serialized model parameters, metrics, EDA plots, and validation JSONs.
+- `docs/`: Phase 1 IEEE report, presentation slides, viva defense guide, literature review, and production audit.
+- `tests/`: Automated unit and integration tests for app rendering, causal queries, and split integrity.
 
-Team: Yug Johri (2401010520), Vidit Sachan (2401010502), Aditya Verma (2401010040), Kaavya Gala (2401010204), Ishita Thakur (2401010195).
+---
 
-The submission is limited to Phase 1. Contribution claims should be recorded by the team based on actual work; none have been invented. The dataset remains attributed to its authors; no new license is asserted for third-party data. Full third-party dataset copies are excluded from source control. Use the included downloader and review the source dataset terms before redistributing data.
+## Evaluation & Team Details
 
-## Streamlit Community Cloud
-
-Deploy this repository’s `main` branch with `app.py` as the entry point and Python 3.12. The app includes a JSON snapshot of the fitted TF-IDF/logistic classifier, compact evaluation results and twenty demonstration examples, so startup does not download the training set or retrain models. No secrets are required. The JSON inference snapshot stores vocabulary, inverse document frequencies and classifier coefficients rather than an executable pickle. Rebuild it with `python -m scripts.export_app_assets` after retraining.
+- **Date**: Monday, 2 November 2026, 3:20–3:45 PM
+- **Venue**: Room A403, Newton School of Technology, Rishihood University
+- **Evaluators**: Sumit Kumar and Indrapal
+- **Team T094, Section E**:
+  - Yug Johri (2401010520)
+  - Vidit Sachan (2401010502)
+  - Aditya Verma (2401010040)
+  - Kaavya Gala (2401010204)
+  - Ishita Thakur (2401010195)
