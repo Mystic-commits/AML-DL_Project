@@ -1,0 +1,42 @@
+{
+  "description": "Hypothesis-only diagnostic measuring dataset shortcut artifacts",
+  "results": {
+    "dev": {
+      "accuracy": 0.7413461538461538,
+      "precision": 0.2831858407079646,
+      "recall": 0.7164179104477612,
+      "f1": 0.40591966173361524,
+      "macro_f1": 0.627254817411032,
+      "confusion_matrix": [
+        [
+          675,
+          231
+        ],
+        [
+          38,
+          96
+        ]
+      ]
+    },
+    "test": {
+      "accuracy": 0.7308429118773946,
+      "precision": 0.32786885245901637,
+      "recall": 0.7692307692307693,
+      "f1": 0.45977011494252873,
+      "macro_f1": 0.6534912952402137,
+      "confusion_matrix": [
+        [
+          643,
+          245
+        ],
+        [
+          36,
+          120
+        ]
+      ]
+    }
+  },
+  "full_input_test_macro_f1": 0.70025473582612,
+  "hypothesis_only_test_macro_f1": 0.6534912952402137,
+  "interpretation": "The hypothesis-only control model achieves 0.653 test macro F1 without observing the premise, compared to 0.700 for the full input model. This demonstrates that a substantial fraction of the benchmark performance comes from template wording artifacts and label-prior shortcuts rather than formal causal deduction over the premise."
+}
