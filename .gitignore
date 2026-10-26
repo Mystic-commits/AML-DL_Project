@@ -1,0 +1,16 @@
+.venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ipynb_checkpoints/
+.DS_Store
+.env
+.env.*
+!.env.example
+*.log
+data/raw/*.csv
+data/processed/
+artifacts/*.joblib
+artifacts/test_predictions.csv
+artifacts/error_examples.csv
+artifacts/test_results.txt
