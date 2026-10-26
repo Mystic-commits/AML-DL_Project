@@ -1,0 +1,22 @@
+{
+  "dataset": "causal-nlp/corr2cause",
+  "revision": "42ba12c769e11ff6427c9f52d7db58e3f9bf3e53",
+  "sampling": "first 12000 train rows; all dev/test rows",
+  "files": {
+    "train": {
+      "url": "https://huggingface.co/datasets/causal-nlp/corr2cause/resolve/42ba12c769e11ff6427c9f52d7db58e3f9bf3e53/train.csv",
+      "rows": 12000,
+      "sha256": "aaf0b5c8afb1fccfc501e77039edab6825dbeb097162d9d8d4c8e870abb87a42"
+    },
+    "dev": {
+      "url": "https://huggingface.co/datasets/causal-nlp/corr2cause/resolve/42ba12c769e11ff6427c9f52d7db58e3f9bf3e53/dev.csv",
+      "rows": 1076,
+      "sha256": "6e52a10c6acc665e577e53eaa41f51a23db3dcc42bc11ab10ce779dcb912cc0b"
+    },
+    "test": {
+      "url": "https://huggingface.co/datasets/causal-nlp/corr2cause/resolve/42ba12c769e11ff6427c9f52d7db58e3f9bf3e53/test.csv",
+      "rows": 1162,
+      "sha256": "3b1c610cd663913ab96e3023504a12e960fb4037dbfedb303e870bc1c6f4a909"
+    }
+  }
+}
