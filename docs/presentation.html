@@ -1,1 +1,341 @@
-<!doctype html><html lang="en"><meta charset="utf-8"><title>Causal Workbench | Phase 1</title><style>body{margin:0;background:#0b0c0e;color:#e6e8e5;font-family:Arial,sans-serif}section{box-sizing:border-box;min-height:100vh;padding:7vh 9vw;border-bottom:1px solid #353936;display:flex;flex-direction:column;justify-content:center}small{letter-spacing:3px;color:#a5b4aa}h1{font-size:clamp(36px,5vw,72px);font-weight:500;max-width:1000px;letter-spacing:-2px}p{font-size:24px;line-height:1.7;max-width:1000px}footer{margin-top:40px;font-size:12px;color:#8b9390} @media print{section{height:100vh;break-after:page}body{print-color-adjust:exact}}</style><section><small>01 / CAUSAL WORKBENCH</small><h1>Neuro-Symbolic Causal Inference</h1><p>Team T094 · Section E<br>Yug Johri · Vidit Sachan · Aditya Verma · Kaavya Gala · Ishita Thakur<br>Phase 1 · 2 November 2026</p><footer>T094 · ADVANCED MACHINE LEARNING · PHASE 01</footer></section><section><small>02 / THE PROBLEM</small><h1>A fluent causal claim needs formal scrutiny.</h1><p>Separate reasoning entailment, explicit relation extraction and causal queries. Each task needs its own evidence.</p><footer>T094 · ADVANCED MACHINE LEARNING · PHASE 01</footer></section><section><small>03 / DATA BEFORE MODELS</small><h1>12,000 train / 1,040 dev / 1,044 test</h1><p>Official Corr2Cause, pinned source revision. Exact premise overlap removed before training. Training is a bounded prefix; test includes only 18 premise groups.</p><footer>T094 · ADVANCED MACHINE LEARNING · PHASE 01</footer></section><section><small>04 / CLASSICAL BASELINE</small><h1>TF-IDF with logistic regression</h1><p>Train-only vocabulary · word unigrams and bigrams · balanced class weights · C = 1 · seed 42. Compare majority, naive Bayes and a unigram ablation.</p><footer>T094 · ADVANCED MACHINE LEARNING · PHASE 01</footer></section><section><small>05 / MEASURED RESULTS</small><h1>0.700 test macro F1</h1><p>Majority: 0.460 · Naive Bayes: 0.465 · Unigram ablation: 0.521<br>Positive precision: 0.392 · Recall: 0.923 · F1: 0.551<br>Approximate group-bootstrap interval: 0.670–0.734</p><footer>T094 · ADVANCED MACHINE LEARNING · PHASE 01</footer></section><section><small>06 / TEXT INTO STRUCTURE</small><h1>Extraction and edge review</h1><p>Keep document and sentence provenance. Normalize small entity aliases. Reject self loops, duplicates and cycle-closing edges. Authored fixture only: 16 documents, F1 0.870.</p><footer>T094 · ADVANCED MACHINE LEARNING · PHASE 01</footer></section><section><small>07 / PROBABILITY NEEDS DATA</small><h1>Rain → Sprinkler → Wet grass</h1><p>Also Rain → Wet grass. Fit CPDs to 6,000 seeded synthetic observations using BDeu smoothing. This supplied causal graph is separate from user-reviewed text.</p><footer>T094 · ADVANCED MACHINE LEARNING · PHASE 01</footer></section><section><small>08 / OBSERVATION VERSUS ACTION</small><h1>P(W | S) ≠ P(W | do(S))</h1><p>Sprinkler on: observation 0.801 · intervention 0.846 · oracle 0.857<br>Sprinkler off: observation 0.452 · intervention 0.275 · oracle 0.284<br>Intervening removes incoming edges to Sprinkler.</p><footer>T094 · ADVANCED MACHINE LEARNING · PHASE 01</footer></section><section><small>09 / WHAT THE EVIDENCE SUPPORTS</small><h1>A transparent Phase 1 baseline</h1><p>No general causal-understanding claim. Nonrandom training prefix; few test groups; lexical parser; authored extraction fixture; synthetic observational data. Individual counterfactuals are not implemented.</p><footer>T094 · ADVANCED MACHINE LEARNING · PHASE 01</footer></section><section><small>10 / DEMONSTRATION AND QUESTIONS</small><h1>Reproducible results</h1><p>Open the local Streamlit workspace. Review errors, approve edges, inspect cycle rejection and compare intervention queries. Source data, outputs, notebook and report are included.</p><footer>T094 · ADVANCED MACHINE LEARNING · PHASE 01</footer></section><section><small>SOURCES</small><h1>Research references</h1><p style="font-size:20px">Pearl, Causality, 2009<br>Jin et al., Corr2Cause, ICLR 2024<br>https://arxiv.org/abs/2306.05836<br>https://huggingface.co/datasets/causal-nlp/corr2cause<br>Scikit-learn feature extraction documentation<br>Ankan and Textor, pgmpy, JMLR 2024</p><footer>Experiment results: artifacts/metrics.json and component_validation.json</footer></section></html>
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Causal Workbench | Phase 1 Presentation</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    body {
+      background: #ffffff;
+      color: #111111;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      line-height: 1.5;
+    }
+    section {
+      min-height: 100vh;
+      padding: 8vh 10vw;
+      border-bottom: 2px solid #111111;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      position: relative;
+    }
+    .slide-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid #111111;
+      padding-bottom: 16px;
+      margin-bottom: 40px;
+    }
+    .tag {
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: #555555;
+    }
+    .slide-num {
+      font-size: 14px;
+      font-weight: 700;
+      font-family: monospace;
+      border: 1px solid #111111;
+      padding: 4px 10px;
+    }
+    .content {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      max-width: 1050px;
+    }
+    h1 {
+      font-size: clamp(34px, 4.8vw, 68px);
+      font-weight: 600;
+      letter-spacing: -1.5px;
+      line-height: 1.15;
+      margin-bottom: 28px;
+      color: #000000;
+    }
+    p, li {
+      font-size: clamp(19px, 2.2vw, 26px);
+      line-height: 1.6;
+      color: #2b2b2b;
+      margin-bottom: 16px;
+    }
+    .metrics-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 20px;
+      margin-top: 24px;
+    }
+    .metric-card {
+      border: 1.5px solid #111111;
+      padding: 20px;
+      background: #fafafa;
+    }
+    .metric-card small {
+      display: block;
+      font-size: 12px;
+      letter-spacing: 1.5px;
+      font-weight: 600;
+      color: #666666;
+      margin-bottom: 8px;
+    }
+    .metric-card strong {
+      font-size: 32px;
+      font-weight: 700;
+      color: #000000;
+    }
+    footer {
+      border-top: 1px solid #111111;
+      padding-top: 16px;
+      margin-top: 40px;
+      display: flex;
+      justify-content: space-between;
+      font-size: 13px;
+      color: #666666;
+      letter-spacing: 1px;
+    }
+    @media print {
+      section {
+        height: 100vh;
+        break-after: page;
+        border-bottom: none;
+      }
+      body {
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Slide 1 -->
+  <section>
+    <div class="slide-header">
+      <span class="tag">01 / Overview</span>
+      <span class="slide-num">01 / 10</span>
+    </div>
+    <div class="content">
+      <h1>Neuro-Symbolic Causal Inference</h1>
+      <p><strong>Team T094 · Section E</strong></p>
+      <p style="font-size: 20px; color: #444444;">Yug Johri · Vidit Sachan · Aditya Verma · Kaavya Gala · Ishita Thakur</p>
+      <p style="font-size: 17px; color: #666666;">Newton School of Technology, Rishihood University<br>Phase 1 Evaluation · 2 November 2026</p>
+    </div>
+    <footer>
+      <span>TEAM T094 · ADVANCED MACHINE LEARNING</span>
+      <span>PHASE 01 SUBMISSION</span>
+    </footer>
+  </section>
+
+  <!-- Slide 2 -->
+  <section>
+    <div class="slide-header">
+      <span class="tag">02 / Problem Statement</span>
+      <span class="slide-num">02 / 10</span>
+    </div>
+    <div class="content">
+      <h1>A fluent causal claim needs formal scrutiny.</h1>
+      <p>Language models can generate plausible causal prose, but cannot by themselves guarantee acyclicity, estimate confounders, or answer interventional queries consistently.</p>
+      <p>Our Phase 1 architecture strictly isolates three distinct stages: <em>reasoning entailment</em>, <em>lexical relation extraction with review</em>, and <em>Bayesian intervention queries</em>.</p>
+    </div>
+    <footer>
+      <span>SEPARATING LANGUAGE FROM CAUSAL REASONING</span>
+      <span>PHASE 01</span>
+    </footer>
+  </section>
+
+  <!-- Slide 3 -->
+  <section>
+    <div class="slide-header">
+      <span class="tag">03 / Data Engineering & Splits</span>
+      <span class="slide-num">03 / 10</span>
+    </div>
+    <div class="content">
+      <h1>Purging Premise Leakage</h1>
+      <p>Official <strong>Corr2Cause</strong> benchmark (pinned HuggingFace commit <code>42ba12c</code>).</p>
+      <p>We normalize and hash the premise text before splitting. Dev and test examples with identical premises seen in train are discarded.</p>
+      <div class="metrics-grid">
+        <div class="metric-card">
+          <small>TRAIN ROWS</small>
+          <strong>12,000</strong>
+        </div>
+        <div class="metric-card">
+          <small>DEV ROWS</small>
+          <strong>1,040</strong>
+        </div>
+        <div class="metric-card">
+          <small>TEST ROWS</small>
+          <strong>1,044</strong>
+        </div>
+      </div>
+    </div>
+    <footer>
+      <span>PREMISE-DISJOINT EVALUATION</span>
+      <span>DATA INTEGRITY</span>
+    </footer>
+  </section>
+
+  <!-- Slide 4 -->
+  <section>
+    <div class="slide-header">
+      <span class="tag">04 / Classical ML Baselines</span>
+      <span class="slide-num">04 / 10</span>
+    </div>
+    <div class="content">
+      <h1>Transparent Classical Models</h1>
+      <p>Vocabulary extracted strictly from training set (word unigrams + bigrams, single-letter variable support for A, B, C).</p>
+      <p>Candidate models: Majority Baseline, TF-IDF + Multinomial Naive Bayes, and TF-IDF + Balanced Logistic Regression.</p>
+      <p>Model selection strictly governed by <strong>Development Macro F1</strong>—test set is never touched during tuning.</p>
+    </div>
+    <footer>
+      <span>MODEL SELECTION DISCIPLINE</span>
+      <span>PHASE 01</span>
+    </footer>
+  </section>
+
+  <!-- Slide 5 -->
+  <section>
+    <div class="slide-header">
+      <span class="tag">05 / Empirical Results</span>
+      <span class="slide-num">05 / 10</span>
+    </div>
+    <div class="content">
+      <h1>0.700 Test Macro F1</h1>
+      <p>The selected TF-IDF Logistic Regression model achieves 0.700 test macro F1 with 0.923 recall on the minority positive class.</p>
+      <div class="metrics-grid">
+        <div class="metric-card">
+          <small>MAJORITY BASELINE</small>
+          <strong>0.460</strong>
+        </div>
+        <div class="metric-card">
+          <small>NAIVE BAYES</small>
+          <strong>0.465</strong>
+        </div>
+        <div class="metric-card">
+          <small>LOGISTIC REGRESSION</small>
+          <strong>0.700</strong>
+        </div>
+        <div class="metric-card">
+          <small>95% BOOTSTRAP CI</small>
+          <strong style="font-size: 24px;">[0.670, 0.734]</strong>
+        </div>
+      </div>
+    </div>
+    <footer>
+      <span>EVIDENCE OVER IMPRESSIONS</span>
+      <span>TEST SET EVALUATION</span>
+    </footer>
+  </section>
+
+  <!-- Slide 6 -->
+  <section>
+    <div class="slide-header">
+      <span class="tag">06 / Shortcut Diagnostic</span>
+      <span class="slide-num">06 / 10</span>
+    </div>
+    <div class="content">
+      <h1>Exposing Spurious Dataset Cues</h1>
+      <p>To determine if the classifier truly uses premise semantics, we trained a <strong>hypothesis-only control model</strong>.</p>
+      <p>The control reaches <strong>0.653 Macro F1</strong> without even observing the premise! This demonstrates that surface wording artifacts in synthetic templates explain a large portion of the score.</p>
+    </div>
+    <footer>
+      <span>HONEST RESEARCH BOUNDARIES</span>
+      <span>ABLATION DIAGNOSTIC</span>
+    </footer>
+  </section>
+
+  <!-- Slide 7 -->
+  <section>
+    <div class="slide-header">
+      <span class="tag">07 / Text to DAG Extraction</span>
+      <span class="slide-num">07 / 10</span>
+    </div>
+    <div class="content">
+      <h1>Reviewed Graph Construction</h1>
+      <p>Explicit lexical extractor with full sentence provenance (sentence ID, document ID).</p>
+      <p>Human-in-the-loop review interface prevents spurious text mentions from corrupting graph topology.</p>
+      <p>Greedy NetworkX cycle and self-loop rejection enforces directed acyclicity.</p>
+    </div>
+    <footer>
+      <span>STRUCTURAL SAFEGUARDS</span>
+      <span>DAG EXTRACTION</span>
+    </footer>
+  </section>
+
+  <!-- Slide 8 -->
+  <section>
+    <div class="slide-header">
+      <span class="tag">08 / Synthetic SCM & Pearl's Do</span>
+      <span class="slide-num">08 / 10</span>
+    </div>
+    <div class="content">
+      <h1>Observation vs Intervention</h1>
+      <p>Didactic SCM: <em>Rain &rarr; Sprinkler</em>, <em>Rain &rarr; Wet Grass</em>, <em>Sprinkler &rarr; Wet Grass</em> (6,000 synthetic observations with BDeu prior).</p>
+      <p>Pearl's graph mutilation isolates causal effect by deleting incoming edges to the intervention target:</p>
+      <div class="metrics-grid">
+        <div class="metric-card">
+          <small>P(WET | SPRINKLER=1)</small>
+          <strong>0.801</strong>
+        </div>
+        <div class="metric-card">
+          <small>P(WET | DO(SPRINKLER=1))</small>
+          <strong>0.846</strong>
+        </div>
+        <div class="metric-card">
+          <small>ORACLE DO VALUE</small>
+          <strong>0.857</strong>
+        </div>
+      </div>
+    </div>
+    <footer>
+      <span>INTERVENTIONAL INFERENCE WITH PGMPY</span>
+      <span>SCM VALIDATION</span>
+    </footer>
+  </section>
+
+  <!-- Slide 9 -->
+  <section>
+    <div class="slide-header">
+      <span class="tag">09 / Boundaries & Scope</span>
+      <span class="slide-num">09 / 10</span>
+    </div>
+    <div class="content">
+      <h1>What We Do & Do Not Claim</h1>
+      <p>&bull; <strong>No General NLP Understanding</strong>: Classical n-grams exploit lexical shortcuts rather than general d-separation logic.</p>
+      <p>&bull; <strong>Decoupled Pipeline</strong>: Text graphs and synthetic Bayesian models are isolated educational modules; text does not automatically parameterize CPDs.</p>
+      <p>&bull; <strong>Phase 1 Scope</strong>: Strictly classical ML and Bayesian networks. No deep learning, BERT, or LLM APIs are used.</p>
+    </div>
+    <footer>
+      <span>PHASE 1 RESEARCH BOUNDARIES</span>
+      <span>METHODOLOGICAL INTEGRITY</span>
+    </footer>
+  </section>
+
+  <!-- Slide 10 -->
+  <section>
+    <div class="slide-header">
+      <span class="tag">10 / Demonstration & Viva</span>
+      <span class="slide-num">10 / 10</span>
+    </div>
+    <div class="content">
+      <h1>Live Demonstration</h1>
+      <p>Interactive Streamlit Causal Workbench running locally at <code>http://127.0.0.1:8501</code>.</p>
+      <p>Six functional pages: Overview, Reasoning lab, Text &rarr; DAG review, Intervention lab, Evaluation dashboard, and Team viva prep guide.</p>
+      <p>All experiments, code, and documentation are reproducible from clean checkout.</p>
+    </div>
+    <footer>
+      <span>READY FOR EVALUATION</span>
+      <span>02 NOVEMBER 2026</span>
+    </footer>
+  </section>
+
+</body>
+</html>
