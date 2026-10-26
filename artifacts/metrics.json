@@ -1,0 +1,181 @@
+{
+  "seed": 42,
+  "selection": "highest dev macro F1; test never used for selection",
+  "selected_model": "TF-IDF + Logistic Regression",
+  "audit": {
+    "train": {
+      "raw": 12000,
+      "retained": 12000,
+      "removed": 0,
+      "groups": 213
+    },
+    "dev": {
+      "raw": 1076,
+      "retained": 1040,
+      "removed": 36,
+      "groups": 21
+    },
+    "test": {
+      "raw": 1162,
+      "retained": 1044,
+      "removed": 118,
+      "groups": 18
+    }
+  },
+  "results": {
+    "Majority baseline": {
+      "dev": {
+        "accuracy": 0.8711538461538462,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "macro_f1": 0.46557040082219936,
+        "confusion_matrix": [
+          [
+            906,
+            0
+          ],
+          [
+            134,
+            0
+          ]
+        ]
+      },
+      "test": {
+        "accuracy": 0.8505747126436781,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "macro_f1": 0.45962732919254656,
+        "confusion_matrix": [
+          [
+            888,
+            0
+          ],
+          [
+            156,
+            0
+          ]
+        ]
+      }
+    },
+    "TF-IDF + Naive Bayes": {
+      "dev": {
+        "accuracy": 0.8692307692307693,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "macro_f1": 0.46502057613168724,
+        "confusion_matrix": [
+          [
+            904,
+            2
+          ],
+          [
+            134,
+            0
+          ]
+        ]
+      },
+      "test": {
+        "accuracy": 0.8486590038314177,
+        "precision": 0.25,
+        "recall": 0.00641025641025641,
+        "f1": 0.0125,
+        "macro_f1": 0.4652748962655601,
+        "confusion_matrix": [
+          [
+            885,
+            3
+          ],
+          [
+            155,
+            1
+          ]
+        ]
+      }
+    },
+    "TF-IDF + Logistic Regression": {
+      "dev": {
+        "accuracy": 0.7538461538461538,
+        "precision": 0.3314917127071823,
+        "recall": 0.8955223880597015,
+        "f1": 0.4838709677419355,
+        "macro_f1": 0.6611274030628869,
+        "confusion_matrix": [
+          [
+            664,
+            242
+          ],
+          [
+            14,
+            120
+          ]
+        ]
+      },
+      "test": {
+        "accuracy": 0.774904214559387,
+        "precision": 0.3923705722070845,
+        "recall": 0.9230769230769231,
+        "f1": 0.5506692160611855,
+        "macro_f1": 0.70025473582612,
+        "confusion_matrix": [
+          [
+            665,
+            223
+          ],
+          [
+            12,
+            144
+          ]
+        ]
+      }
+    },
+    "Unigram ablation": {
+      "dev": {
+        "accuracy": 0.6605769230769231,
+        "precision": 0.22278481012658227,
+        "recall": 0.6567164179104478,
+        "f1": 0.332703213610586,
+        "macro_f1": 0.5525540568375302,
+        "confusion_matrix": [
+          [
+            599,
+            307
+          ],
+          [
+            46,
+            88
+          ]
+        ]
+      },
+      "test": {
+        "accuracy": 0.5708812260536399,
+        "precision": 0.23454545454545456,
+        "recall": 0.8269230769230769,
+        "f1": 0.3654390934844193,
+        "macro_f1": 0.5206356104180417,
+        "confusion_matrix": [
+          [
+            467,
+            421
+          ],
+          [
+            27,
+            129
+          ]
+        ]
+      }
+    }
+  },
+  "test_macro_f1_group_bootstrap_95ci": [
+    0.6698874007517891,
+    0.7343476189482963
+  ],
+  "limitations": [
+    "Bounded prefix of training data; not a random full-corpus benchmark.",
+    "Premise text grouping blocks exact premise overlap; semantic equivalence under variable renaming is not guaranteed.",
+    "Corr2Cause measures reasoning entailment, not open-domain relation extraction.",
+    "Classifier probabilities are not calibrated causal confidence."
+  ]
+}

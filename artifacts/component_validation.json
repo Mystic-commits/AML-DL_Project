@@ -1,0 +1,235 @@
+{
+  "fixture_notice": "16 manually authored regression documents, not an independently annotated held-out corpus. Metrics describe supported-pattern coverage only.",
+  "extraction": {
+    "tp": 10,
+    "fp": 0,
+    "fn": 3,
+    "precision": 1.0,
+    "recall": 0.7692307692307693,
+    "f1": 0.8695652173913044
+  },
+  "graph": {
+    "precision": 1.0,
+    "recall": 1.0,
+    "rejected": [
+      {
+        "cause": "wet_grass",
+        "effect": "rain",
+        "document_id": "interactive",
+        "sentence_id": 4,
+        "sentence": "Wet grass causes rain",
+        "method": "explicit lexical pattern",
+        "reason": "would create a cycle"
+      }
+    ]
+  },
+  "interventions": [
+    {
+      "sprinkler": 0,
+      "observed": 0.4523668200029678,
+      "estimated_do": 0.2747700163468629,
+      "oracle_do": 0.28400000000000003,
+      "absolute_error": 0.009229983653137153
+    },
+    {
+      "sprinkler": 1,
+      "observed": 0.801081388730791,
+      "estimated_do": 0.8464888589838538,
+      "oracle_do": 0.857,
+      "absolute_error": 0.010511141016146142
+    }
+  ],
+  "documents": [
+    {
+      "id": "doc01",
+      "predicted": [
+        [
+          "rain",
+          "wet_grass"
+        ]
+      ],
+      "gold": [
+        [
+          "rain",
+          "wet_grass"
+        ]
+      ]
+    },
+    {
+      "id": "doc02",
+      "predicted": [
+        [
+          "rain",
+          "wet_grass"
+        ]
+      ],
+      "gold": [
+        [
+          "rain",
+          "wet_grass"
+        ]
+      ]
+    },
+    {
+      "id": "doc03",
+      "predicted": [
+        [
+          "sprinkler",
+          "wet_grass"
+        ]
+      ],
+      "gold": [
+        [
+          "sprinkler",
+          "wet_grass"
+        ]
+      ]
+    },
+    {
+      "id": "doc04",
+      "predicted": [
+        [
+          "heat",
+          "evaporation"
+        ]
+      ],
+      "gold": [
+        [
+          "heat",
+          "evaporation"
+        ]
+      ]
+    },
+    {
+      "id": "doc05",
+      "predicted": [
+        [
+          "exercise",
+          "fatigue"
+        ]
+      ],
+      "gold": [
+        [
+          "exercise",
+          "fatigue"
+        ]
+      ]
+    },
+    {
+      "id": "doc06",
+      "predicted": [
+        [
+          "rain",
+          "wet_grass"
+        ]
+      ],
+      "gold": [
+        [
+          "rain",
+          "wet_grass"
+        ]
+      ]
+    },
+    {
+      "id": "doc07",
+      "predicted": [],
+      "gold": []
+    },
+    {
+      "id": "doc08",
+      "predicted": [],
+      "gold": []
+    },
+    {
+      "id": "doc09",
+      "predicted": [],
+      "gold": []
+    },
+    {
+      "id": "doc10",
+      "predicted": [],
+      "gold": []
+    },
+    {
+      "id": "doc11",
+      "predicted": [],
+      "gold": [
+        [
+          "rain",
+          "flooding"
+        ]
+      ]
+    },
+    {
+      "id": "doc12",
+      "predicted": [],
+      "gold": [
+        [
+          "heat",
+          "evaporation"
+        ]
+      ]
+    },
+    {
+      "id": "doc13",
+      "predicted": [
+        [
+          "flooding",
+          "delays"
+        ],
+        [
+          "rain",
+          "flooding"
+        ]
+      ],
+      "gold": [
+        [
+          "flooding",
+          "delays"
+        ],
+        [
+          "rain",
+          "flooding"
+        ]
+      ]
+    },
+    {
+      "id": "doc14",
+      "predicted": [],
+      "gold": []
+    },
+    {
+      "id": "doc15",
+      "predicted": [],
+      "gold": [
+        [
+          "smoking",
+          "cancer_risk"
+        ]
+      ]
+    },
+    {
+      "id": "doc16",
+      "predicted": [
+        [
+          "sprinkler",
+          "wet_grass"
+        ],
+        [
+          "wet_grass",
+          "wet_grass"
+        ]
+      ],
+      "gold": [
+        [
+          "sprinkler",
+          "wet_grass"
+        ],
+        [
+          "wet_grass",
+          "wet_grass"
+        ]
+      ]
+    }
+  ]
+}
