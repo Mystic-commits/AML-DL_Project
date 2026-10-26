@@ -1,0 +1,18 @@
+[
+ {"id":"doc01","text":"Rain causes wet grass.","edges":[["rain","wet_grass"]]},
+ {"id":"doc02","text":"Rainfall leads to wet grass.","edges":[["rain","wet_grass"]]},
+ {"id":"doc03","text":"Sprinklers result in wet grass.","edges":[["sprinkler","wet_grass"]]},
+ {"id":"doc04","text":"Heat causes evaporation.","edges":[["heat","evaporation"]]},
+ {"id":"doc05","text":"Exercise leads to fatigue.","edges":[["exercise","fatigue"]]},
+ {"id":"doc06","text":"The rain causes the wet grass.","edges":[["rain","wet_grass"]]},
+ {"id":"doc07","text":"Rain may cause flooding.","edges":[]},
+ {"id":"doc08","text":"Rain does not cause drought.","edges":[]},
+ {"id":"doc09","text":"Rain correlates with traffic.","edges":[]},
+ {"id":"doc10","text":"Wet grass was observed after rain.","edges":[]},
+ {"id":"doc11","text":"Flooding is caused by rain.","edges":[["rain","flooding"]]},
+ {"id":"doc12","text":"Because of heat, evaporation increases.","edges":[["heat","evaporation"]]},
+ {"id":"doc13","text":"Rain causes flooding. Flooding leads to delays.","edges":[["rain","flooding"],["flooding","delays"]]},
+ {"id":"doc14","text":"If rain causes flooding, roads may close.","edges":[]},
+ {"id":"doc15","text":"Smoking increases cancer risk.","edges":[["smoking","cancer_risk"]]},
+ {"id":"doc16","text":"The sprinkler causes wet grass. Wet grass causes wet grass.","edges":[["sprinkler","wet_grass"],["wet_grass","wet_grass"]]}
+]
