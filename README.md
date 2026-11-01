@@ -2,9 +2,17 @@
 
 Phase 1 Classical Machine Learning · Team T094, Section E
 
-A clean, white monochrome research application for Corr2Cause reasoning, reviewed text-to-DAG extraction, and Bayesian intervention queries. Strictly classical machine learning and probabilistic graphical models (no neural models or external API keys).
+A presentation-matched research application in warm beige, deep red, and locally bundled Poppins typography for Corr2Cause reasoning, reviewed text-to-DAG extraction, and Bayesian intervention queries. Strictly classical machine learning and probabilistic graphical models (no neural models or external API keys).
 
 ---
+
+## Hosted app
+
+[Open Causal Workbench](https://causal-workbench-t094.streamlit.app/)
+
+Deployed from `main`, entrypoint `app.py`, on Streamlit Community Cloud with Python 3.12. No API keys are required. Changes pushed to `main` automatically update the hosted app. The free host may need a short wake-up before the viva; open the link in advance.
+
+Active team: Yug Johri, Vidit Sachan, Aditya Verma, and Ishita Thakur.
 
 ## Quickstart & Local Execution
 
