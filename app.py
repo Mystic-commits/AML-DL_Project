@@ -53,6 +53,7 @@ page = st.sidebar.radio(
     "Workspace",
     [
         "Overview",
+        "Viva demo",
         "Reasoning lab",
         "Text → DAG",
         "Intervention lab",
@@ -110,7 +111,11 @@ st.markdown(
 #  PAGE: Overview
 # ═══════════════════════════════════════════════════
 
-if page == "Overview":
+if page == "Viva demo":
+    from src.demo_ui import render_demo
+    render_demo()
+
+elif page == "Overview":
     st.markdown('<div class="hero-kicker">LANGUAGE × STRUCTURE × INFERENCE</div>', unsafe_allow_html=True)
     st.markdown('<h1 class="hero-title">From language.<br>To causal structure.</h1>', unsafe_allow_html=True)
 
@@ -119,6 +124,7 @@ if page == "Overview":
         "reviewing extracted relations, and asking explicit intervention questions."
     )
 
+    st.info("Presenting this project? Select Viva demo in the sidebar for a guided three-minute walkthrough.")
     st.image(str(ROOT / "assets/research-hands.png"), use_container_width=True)
     st.markdown('<div class="rule"></div>', unsafe_allow_html=True)
 
@@ -259,6 +265,7 @@ elif page == "Text → DAG":
         edited = st.data_editor(
             candidates,
             disabled=list(candidates.columns[1:]),
+            column_config={"approved": st.column_config.CheckboxColumn("Approve", help="Only approved candidates enter the graph")},
             hide_index=True,
             use_container_width=True,
             key="review",
@@ -328,7 +335,10 @@ elif page == "Text → DAG":
         rationale = st.text_input("Why are these directions causal for this dataset?")
         confounders = st.checkbox("I assume all relevant confounders are observed")
         stable = st.checkbox("I assume mechanisms remain stable under intervention")
-        if st.button("Fit approved graph"):
+        ready_to_fit = bool(accepted) and bool(uploaded is not None or use_demo) and bool(reviewer.strip()) and bool(rationale.strip()) and confounders and stable
+        if not ready_to_fit:
+            st.caption("To enable fitting: approve edges, choose observations, enter reviewer and causal rationale, and confirm both assumptions.")
+        if st.button("Fit approved graph", disabled=not ready_to_fit):
             try:
                 if uploaded is None and not use_demo:
                     raise ValueError("Upload observations or select the synthetic example")

@@ -6,6 +6,10 @@ A presentation-matched research application in warm beige, deep red, and locally
 
 ---
 
+## Viva demonstration
+
+Start with **Viva demo** in the sidebar: review candidates → validate DAG → fit the teaching network → compare observation and intervention. See [the click-by-click viva script](docs/streamlit_viva_demo.md). Detailed labs remain available for custom experiments.
+
 ## Hosted app
 
 [Open Causal Workbench](https://causal-workbench-t094.streamlit.app/)
