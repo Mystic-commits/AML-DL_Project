@@ -163,5 +163,5 @@ See [`docs/production_audit.md`](docs/production_audit.md) for detailed verifica
   - Yug Johri (2401010520)
   - Vidit Sachan (2401010502)
   - Aditya Verma (2401010040)
-  - Kaavya Gala (2401010204)
+  - Kaavya Gala (Special Guest)
   - Ishita Thakur (2401010195)
