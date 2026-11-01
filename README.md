@@ -95,9 +95,9 @@ This checks available hashes, split membership, development selection and report
 
 ### Submission and study files
 
-- [Formal PowerPoint](docs/phase1_presentation.pptx) with editable charts and presenter notes
+- [Formal PowerPoint](docs/phase1_presentation.pptx) in the supplied Canva red/beige style, with editable charts and a full speaking script in presenter notes
 - [Project report PDF](docs/phase1_report.pdf) and [IEEEtran LaTeX source](docs/ieee-report/main.tex)
-- [Detailed viva tutorial and demo script](docs/viva_masterclass.md)
+- [Detailed viva tutorial, slide-by-slide presentation script and demo guidance](docs/viva_masterclass.md)
 - [Gap audit against the reference and rubric](docs/gap_audit.md)
 - [Dataset contracts](docs/data_dictionary.md)
 - [Actual contribution record to complete](docs/contributions.md)
