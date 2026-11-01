@@ -8,6 +8,7 @@ and Bayesian intervention queries. Uses classical ML only (no neural models).
 
 from pathlib import Path
 import json
+import base64
 import matplotlib
 import matplotlib.pyplot as plt
 import networkx as nx
@@ -34,96 +35,18 @@ st.set_page_config(
     layout="wide",
 )
 
-# inject custom css for the white + black-line aesthetic
-st.markdown("""<style>
-html, body, [class*="css"], .stApp {
-    font-family: Inter, Arial, sans-serif;
-}
-.block-container {
-    max-width: 1440px;
-    padding-top: 2.8rem;
-}
-h1 {
-    font-weight: 500 !important;
-    letter-spacing: -2px !important;
-    font-size: 3.4rem !important;
-    color: #1a1a1a !important;
-}
-h2 {
-    font-weight: 500 !important;
-    letter-spacing: -0.7px;
-    color: #1a1a1a !important;
-}
-[data-testid="stMetric"] {
-    border: 1px solid #1a1a1a;
-    padding: 22px;
-    background: #ffffff;
-    border-radius: 0;
-}
-[data-testid="stMetricLabel"] {
-    color: #555555;
-}
-[data-testid="stMetricValue"] {
-    font-size: 2rem;
-    color: #1a1a1a;
-}
-[data-testid="stToolbar"] {
-    display: none;
-}
-.stAlert {
-    background: #fafafa !important;
-    color: #333333 !important;
-    border: 1px solid #d0d0d0;
-}
-.stat-grid {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 12px;
-}
-.stat {
-    border: 1px solid #1a1a1a;
-    padding: 18px;
-    background: #ffffff;
-}
-.stat small {
-    font-size: 11px;
-    letter-spacing: 1px;
-    color: #555555;
-}
-.stat strong {
-    display: block;
-    font-size: 27px;
-    font-weight: 500;
-    margin-top: 12px;
-    color: #1a1a1a;
-}
-.stButton > button, .stTextArea textarea, .stSelectbox > div > div {
-    border-radius: 0 !important;
-}
-[data-testid="stSidebar"] {
-    border-right: 1px solid #1a1a1a;
-}
-.eyebrow {
-    font-size: 11px;
-    letter-spacing: 3px;
-    color: #777777;
-    margin-bottom: 18px;
-}
-.rule {
-    border-top: 1px solid #1a1a1a;
-    margin: 24px 0;
-}
-.note {
-    color: #555555;
-    font-size: 14px;
-    line-height: 1.7;
-}
-</style>""", unsafe_allow_html=True)
+# The presentation and application share the same locally bundled design assets.
+font_regular = base64.b64encode((ROOT / "assets/fonts/Poppins-Regular.ttf").read_bytes()).decode()
+font_bold = base64.b64encode((ROOT / "assets/fonts/Poppins-Bold.ttf").read_bytes()).decode()
+st.markdown(f"<style>@font-face{{font-family:Poppins;src:url(data:font/ttf;base64,{font_regular})}}"
+            f"@font-face{{font-family:Poppins;src:url(data:font/ttf;base64,{font_bold});font-weight:700}}</style>",
+            unsafe_allow_html=True)
+st.markdown((ROOT / "assets/workbench.css").read_text().join(["<style>", "</style>"]), unsafe_allow_html=True)
 
 
 # ── sidebar ──
 
-st.sidebar.markdown("### ◈ CAUSAL\nWORKBENCH")
+st.sidebar.markdown('<div class="brand">CAUSAL<span>WORKBENCH.</span></div>', unsafe_allow_html=True)
 st.sidebar.caption("T094 / SECTION E / PHASE 01")
 
 page = st.sidebar.radio(
@@ -144,7 +67,7 @@ st.sidebar.divider()
 st.sidebar.caption(
     "CAUSAL RESEARCH WORKSPACE\n\n"
     "Classical ML · Bayesian networks\n\n"
-    "02 NOV 2026 / 15:20–15:45 / A403"
+    "T094 · FOUR RESEARCHERS · ONE WORKSPACE"
 )
 
 
@@ -188,13 +111,15 @@ st.markdown(
 # ═══════════════════════════════════════════════════
 
 if page == "Overview":
-    st.title("From language.\nTo causal structure.")
+    st.markdown('<div class="hero-kicker">LANGUAGE × STRUCTURE × INFERENCE</div>', unsafe_allow_html=True)
+    st.markdown('<h1 class="hero-title">From language.<br>To causal structure.</h1>', unsafe_allow_html=True)
 
     st.markdown(
         "A research workspace for testing causal reasoning, "
         "reviewing extracted relations, and asking explicit intervention questions."
     )
 
+    st.image(str(ROOT / "assets/research-hands.png"), use_container_width=True)
     st.markdown('<div class="rule"></div>', unsafe_allow_html=True)
 
     macro_f1 = selected_test["macro_f1"]
@@ -231,7 +156,8 @@ if page == "Overview":
         st.subheader("Research boundaries")
         st.markdown(
             '<div class="stat note">'
-            "Corr2Cause is a reasoning benchmark. The lexical extractor is a separate demonstration. "
+            "Corr2Cause measures claim reasoning; SemEval measures directed relation extraction. "
+            "Candidate edges require review before graph construction. "
             "Bayesian probabilities are fitted to a labelled synthetic observational dataset, "
             "under its stated causal assumptions."
             "</div>",
@@ -348,17 +274,17 @@ elif page == "Text → DAG":
 
         with left_col:
             if graph.nodes:
-                fig, ax = plt.subplots(figsize=(8, 4), facecolor="#ffffff")
-                ax.set_facecolor("#ffffff")
+                fig, ax = plt.subplots(figsize=(8, 4), facecolor="#F8F4EC")
+                ax.set_facecolor("#F8F4EC")
                 pos = nx.spring_layout(graph, seed=42)
                 nx.draw_networkx(
                     graph,
                     pos=pos,
                     ax=ax,
-                    node_color="#e0e0e0",
-                    edge_color="#1a1a1a",
+                    node_color="#BF092F",
+                    edge_color="#594832",
                     font_size=10,
-                    font_color="#1a1a1a",
+                    font_color="#ffffff",
                     node_size=2600,
                     arrowsize=24,
                 )
@@ -610,16 +536,14 @@ elif page == "Evaluation":
 elif page == "Team & viva":
     st.title("Prepared to explain it.")
     st.write(
-        "Team T094 · Section E · Monday, 2 November 2026 · 3:20–3:45 PM · A403"
+        "Team T094 · Section E · Phase 1 · Four current members"
     )
-    st.caption("Evaluators: Sumit Kumar and Indrapal")
 
     team = pd.DataFrame(
         [
             ["Yug Johri", "2401010520"],
             ["Vidit Sachan", "2401010502"],
             ["Aditya Verma", "2401010040"],
-            ["Kaavya Gala", "2401010204"],
             ["Ishita Thakur", "2401010195"],
         ],
         columns=["Member", "Enrollment"],
