@@ -550,10 +550,6 @@ elif page == "Team & viva":
     )
     st.dataframe(team, hide_index=True, use_container_width=True)
 
-    st.caption(
-        "Contribution ownership must reflect the team's actual work; "
-        "this project does not fabricate individual contribution records."
-    )
 
     # viva prep Q&A
     viva_questions = {
