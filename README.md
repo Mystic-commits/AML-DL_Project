@@ -61,6 +61,52 @@ To reproduce all results from raw data:
 
 ---
 
+## Phase 1 completion update (1 November 2026)
+
+This submission remains **classical ML only**, as confirmed by the team. The new external extraction experiment supplements Corr2Cause reasoning and the synthetic Bayesian example.
+
+| Directed extraction model | Precision | Recall | Edge F1 |
+|---|---:|---:|---:|
+| Majority (no relation) | 0.000 | 0.000 | 0.000 |
+| Explicit lexical rules | 0.847 | 0.661 | 0.742 |
+| Entity-only ablation | 0.532 | 0.477 | 0.503 |
+| Context TF-IDF + Logistic Regression | 0.820 | 0.820 | 0.820 |
+
+SemEval-2010 Task 8 supplies entity spans. This is a derived three-class task, not the official 19-class benchmark. Sentence-grouped partitions contain 6,400 train, 1,600 dev and 2,700 retained test examples. Dev selects C=10. Test edge-F1 sentence-group bootstrap interval: [0.786, 0.851]. These measurements do not establish scientific/news domain extraction or causal truth.
+
+The **Text → DAG** view now fits approved, provenance-bearing graphs to uploaded complete binary observations (or explicitly labeled synthetic teaching data). It records reviewer assumptions, fits BDeu CPDs and supports observational/interventional queries. Classifier scores never become CPDs.
+
+### Reproduce and verify extraction
+
+```sh
+python -m scripts.fetch_extraction_data
+python -m scripts.train_extraction --output artifacts/runs/my_extraction_run
+python -m scripts.verify_extraction_run artifacts/runs/my_extraction_run
+python -m pytest -q
+```
+
+Choose a new run directory. The runner refuses to overwrite an existing run. Raw parquet files, full text partitions and pickle models are generated locally. A bundled JSON model snapshot enables offline extraction inference. Audit the bundled historical numerical records without downloading corpus text:
+
+```sh
+python -m scripts.verify_extraction_run artifacts/runs/phase1_extraction_verified_20261101 --portable
+```
+
+This checks available hashes, split membership, development selection and reported metrics. Full model prediction reproduction needs locally generated text partitions and an estimator; a new run records its own hashes and environment.
+
+### Submission and study files
+
+- [Formal PowerPoint](docs/phase1_presentation.pptx) with editable charts and presenter notes
+- [Project report PDF](docs/phase1_report.pdf) and [IEEEtran LaTeX source](docs/ieee-report/main.tex)
+- [Detailed viva tutorial and demo script](docs/viva_masterclass.md)
+- [Gap audit against the reference and rubric](docs/gap_audit.md)
+- [Dataset contracts](docs/data_dictionary.md)
+- [Actual contribution record to complete](docs/contributions.md)
+- [Extraction run results](artifacts/runs/phase1_extraction_verified_20261101/metrics.json)
+
+Remaining boundaries: automatic entity discovery, independently annotated scientific/news documents, real-domain causal identification and individual counterfactuals are not completed. Transformers and a measured neural hybrid remain Phase 2. Team members must fill their actual contribution evidence and understand the code before the individual viva.
+
+---
+
 ## Key Experimental Results
 
 - **Selected Model**: TF-IDF (unigrams + bigrams) with balanced Logistic Regression achieves **0.700 test macro F1** on 1,044 retained test rows (positive precision: 0.392, recall: 0.923).
@@ -75,7 +121,7 @@ See [`docs/production_audit.md`](docs/production_audit.md) for detailed verifica
 
 ## Project Structure
 
-- `app.py`: Six-page white monochrome Streamlit workspace with high-contrast black rules.
+- `app.py`: Seven-page white monochrome Streamlit workspace with high-contrast black rules.
 - `.streamlit/config.toml`: Clean white theme configuration.
 - `src/experiment.py`: Premise-disjoint splitting, classical ML training, bootstrap CI, and model selection.
 - `src/runtime.py`: Portable zero-pickle inference snapshot loader (`FrozenReasoner`).

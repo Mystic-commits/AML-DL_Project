@@ -1,0 +1,11 @@
+{
+  "status": "PASS",
+  "mode": "portable numeric audit",
+  "checks": [
+    "available artifact hashes",
+    "split isolation",
+    "dev-only selection",
+    "all test metrics",
+    "prediction alignment"
+  ]
+}

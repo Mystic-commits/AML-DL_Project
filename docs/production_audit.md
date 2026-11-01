@@ -31,3 +31,10 @@ Audit scope: Local and cloud deployment of the Phase 1 educational causal reason
 5. **Lexical Extractor Scope**: The rule-based extractor handles simple affirmative patterns only ("X causes Y", "X leads to Y", "X results in Y"). It does not handle passive voice, nested clauses, or general scientific prose.
 6. **Synthetic SCM**: The Bayesian network is a hardcoded 3-variable didactic model (Rain, Sprinkler, Wet Grass) with seeded synthetic data. User-reviewed graphs from the text extractor do not automatically acquire these probability distributions.
 7. **Intervention vs Counterfactuals**: The system answers population-level intervention queries ($P(Y \mid do(X))$) using mutilated graph factorization; it does not implement individual-level counterfactual inference ($P(Y_{X=x} \mid X=x', Y=y')$).
+
+
+## Phase 1 extension, 1 November 2026
+
+The previous separation of reviewed graphs and parameter fitting is now addressed by `src/reviewed_network.py` and the Text → DAG app view. Matching binary observations and explicit assumptions remain mandatory. The original intervention lab remains a separate, clearly labeled synthetic teaching system.
+
+An independent SemEval given-entity relation classification evaluation now supplements the 16 authored lexical fixtures. It does not resolve scientific/news domain coverage or automatic entity identification. See `gap_audit.md` and the versioned extraction run for the updated status. The original seven research boundaries above remain historical context where superseded by this section.

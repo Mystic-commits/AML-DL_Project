@@ -1,0 +1,18 @@
+{
+  "seed": 42,
+  "task": "given-entity directed causal relation classification",
+  "selection": "max dev edge F1, ties prefer smaller C",
+  "C_grid": [
+    0.1,
+    1.0,
+    10.0
+  ],
+  "no_threshold_tuning": true,
+  "group": "normalized sentence without entity tags",
+  "limitations": [
+    "No document identifiers supplied by corpus",
+    "General semantic relations, not a scientific/news corpus",
+    "Given entity spans; NER and candidate recall not measured",
+    "Not the official 19-class SemEval metric"
+  ]
+}

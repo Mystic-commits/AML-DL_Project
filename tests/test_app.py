@@ -25,6 +25,7 @@ def test_every_page_renders_without_exception():
         "Intervention lab",
         "Evaluation",
         "Team & viva",
+        "Extraction benchmark",
     ]
 
     for target_page in pages_to_test:

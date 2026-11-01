@@ -1,0 +1,16 @@
+{
+  "metrics.json": "e67da9b8546c5031f094e30f2337ab2d382931fe58dbda8e8112dda2046fb4d8",
+  "requirements-freeze.txt": "172360bf9270f842b5e5c2b5016401401e0dec7c4c6e987dbf5f1faf39717307",
+  "test.csv": "d5e2a57d20e3c8e029688bc472b7fe3e7b84ba7c863ef275610372c7da35559f",
+  "predictions.csv": "caeace311b1f2dedacb02d3679d69c6f44dcdb25d035f9960ef36fef055f1453",
+  "model.joblib": "3a114398cef71c89372ac8ffb54b8880c5c4caf32427d78228ff7d5ffb62a536",
+  "protocol.json": "730aa5b363b687ee6699a8ea538ad79686a045e186fb4ce6027fcfb354f8e48f",
+  "dev.csv": "7b6c9c32904b2b3b5a64bfdeeb29e0cb06c2b0cf398439a74345b2226447fc58",
+  "train.csv": "51d1c855f66fbc81e22fb6f8ae4458030918764de5ea7db831e29c22606570ea",
+  "data_manifest.json": "b2f1e73294a151e9ef4dcd2c72b6178f871b4d0ecb2ae6206583a8e2fd98906a",
+  "environment.json": "fb3838236b3d67ca5c6ad878d5fd7ba721d3c3b755bc77b7c8fc3f5748c512e5",
+  "code/train_extraction.py": "f91ec16ce554cb4e9bd4defff4362760adcd0f239e56601cda7130e6df44daab",
+  "code/extraction.py": "86cf84f182eec4f28b1c3c4c797aa92541ab734fe621dc531dd85b40e418cb6f",
+  "model_snapshot.json": "fa67e1509ee9811bcf635e5837b9b1580962ac67d20f20244c947b97a611f221",
+  "partitions.csv": "ef35accab95ba30d9e4431709dd98cb73640850716b94c007370cd0587eebe69"
+}

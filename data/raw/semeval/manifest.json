@@ -1,0 +1,14 @@
+{
+  "dataset": "SemEvalWorkshop/sem_eval_2010_task_8",
+  "revision": "d58325907b9bf84a7c81f81fe5372791d911c10c",
+  "files": {
+    "train": {
+      "url": "https://huggingface.co/datasets/SemEvalWorkshop/sem_eval_2010_task_8/resolve/d58325907b9bf84a7c81f81fe5372791d911c10c/data/train-00000-of-00001.parquet",
+      "sha256": "06ab732f8e8f3e9b7b40d55fc5eee8f6f5a288ff432d03dde028d157119eced4"
+    },
+    "test": {
+      "url": "https://huggingface.co/datasets/SemEvalWorkshop/sem_eval_2010_task_8/resolve/d58325907b9bf84a7c81f81fe5372791d911c10c/data/test-00000-of-00001.parquet",
+      "sha256": "08ed740fc18a3ffe47d00d46b4f8e8227fc2f6223b57f61f9c7d8e85221fcb6d"
+    }
+  }
+}

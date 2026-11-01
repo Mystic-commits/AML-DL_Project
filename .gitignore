@@ -14,3 +14,8 @@ artifacts/*.joblib
 artifacts/test_predictions.csv
 artifacts/error_examples.csv
 artifacts/test_results.txt
+data/raw/semeval/*.parquet
+artifacts/runs/**/model.joblib
+artifacts/runs/**/train.csv
+artifacts/runs/**/dev.csv
+artifacts/runs/**/test.csv

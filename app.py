@@ -2,7 +2,7 @@
 Causal Workbench — Phase 1 Streamlit Application
 Team T094, Section E
 
-Six-page interactive workspace for causal reasoning, DAG extraction, 
+Seven-page interactive workspace for causal reasoning, DAG extraction,
 and Bayesian intervention queries. Uses classical ML only (no neural models).
 """
 
@@ -15,6 +15,7 @@ import pandas as pd
 import streamlit as st
 
 from src.runtime import FrozenReasoner
+from src.reviewed_network import fit_reviewed_network
 from src.causal import (
     extract,
     build_graph,
@@ -134,6 +135,7 @@ page = st.sidebar.radio(
         "Intervention lab",
         "Evaluation",
         "Team & viva",
+        "Extraction benchmark",
     ],
     label_visibility="collapsed",
 )
@@ -312,6 +314,9 @@ elif page == "Text → DAG":
     )
 
     candidates = extract(source_text)
+    pending = st.session_state.get("classified_candidate")
+    if pending and st.checkbox("Include latest classified entity-pair candidate for review"):
+        candidates = pd.concat([candidates, pd.DataFrame([pending])], ignore_index=True)
 
     if candidates.empty:
         st.info("No supported explicit relations found.")
@@ -385,8 +390,41 @@ elif page == "Text → DAG":
         st.caption(
             "Greedy cycle handling follows source order. "
             "Rejection is a structural safeguard, not proof that an edge is causally false. "
-            "This reviewed graph is separate from the fixed synthetic network in Intervention lab."
+            "Fit this reviewed graph below, or use the separate synthetic network in Intervention lab."
         )
+
+
+        st.subheader("Fit the reviewed graph")
+        st.caption("Upload complete binary observations with column names matching graph nodes. The teaching example uses synthetic observations. Text alone cannot estimate probabilities.")
+        uploaded = st.file_uploader("Binary observations CSV", type=["csv"])
+        use_demo = st.checkbox("Use synthetic rain/sprinkler/wet_grass observations")
+        reviewer = st.text_input("Reviewer name")
+        rationale = st.text_input("Why are these directions causal for this dataset?")
+        confounders = st.checkbox("I assume all relevant confounders are observed")
+        stable = st.checkbox("I assume mechanisms remain stable under intervention")
+        if st.button("Fit approved graph"):
+            try:
+                if uploaded is None and not use_demo:
+                    raise ValueError("Upload observations or select the synthetic example")
+                data = observations() if use_demo else pd.read_csv(uploaded)
+                reviewed = [dict(r, approved=True) for r in accepted]
+                network, audit = fit_reviewed_network(reviewed, data, dict(
+                    reviewed_by=reviewer, causal_rationale=rationale,
+                    observed_confounders=confounders, stable_mechanisms=stable))
+                st.session_state["reviewed_fit"] = (network, audit, json.dumps(accepted, sort_keys=True))
+                st.success("Fitted reviewed DAG. Queries below rely on your recorded assumptions.")
+            except (ValueError, KeyError) as error:
+                st.error(str(error))
+        fit = st.session_state.get("reviewed_fit")
+        if fit and fit[2] == json.dumps(accepted, sort_keys=True):
+            network, audit, _ = fit
+            nodes = list(network.nodes())
+            target = st.selectbox("Reviewed network target", nodes)
+            variable = st.selectbox("Reviewed network treatment", [n for n in nodes if n != target])
+            value = st.radio("Reviewed treatment state", [0, 1], horizontal=True)
+            st.write({"observational_probability": query(target=target, variable=variable, value=value, network=network),
+                "intervention_probability": query(target=target, variable=variable, value=value, intervention=True, network=network)})
+            st.download_button("Export fitted network audit", json.dumps(audit, indent=2), "fitted_network.json", "application/json")
 
 
 # ═══════════════════════════════════════════════════
@@ -569,7 +607,7 @@ elif page == "Evaluation":
 #  PAGE: Team & viva
 # ═══════════════════════════════════════════════════
 
-else:
+elif page == "Team & viva":
     st.title("Prepared to explain it.")
     st.write(
         "Team T094 · Section E · Monday, 2 November 2026 · 3:20–3:45 PM · A403"
@@ -626,3 +664,37 @@ else:
     for question, answer in viva_questions.items():
         with st.expander(question):
             st.write(answer)
+
+
+if page == "Extraction benchmark":
+    st.title("Directed relation classification")
+    st.caption("SemEval-2010 Task 8 extension. Given entity spans. Labels: no relation, e1 causes e2, e2 causes e1. No neural model in Phase 1.")
+    result_path = ROOT / "artifacts/runs/phase1_extraction_verified_20261101/metrics.json"
+    if result_path.exists():
+        results = json.loads(result_path.read_text())
+        st.dataframe(pd.DataFrame(results["test"]).T[["edge_precision","edge_recall","edge_f1","macro_f1"]])
+        st.write("Selected regularization C:", results["selected_C"])
+        st.write("Test edge F1 bootstrap interval:", results["test_edge_f1_bootstrap_95ci"])
+        st.caption("Dev selects C. Entity strings are masked in the full context model. This is separate from Corr2Cause entailment and from document-level DAG correctness.")
+    marked = st.text_area("Sentence with given entity spans", "<e1>Heat</e1> causes <e2>evaporation</e2>.")
+    if st.button("Classify entity pair"):
+        import re
+        from src.extraction import lexical_label, predicted_edge, features
+        if not all(len(re.findall(fr"<e{n}>.+?</e{n}>", marked)) == 1 for n in [1,2]):
+            st.error("Provide exactly one e1 span and one e2 span.")
+        else:
+            label = lexical_label(marked)
+            method = "explicit lexical rules"
+            model_path = result_path.parent / "model_snapshot.json"
+            if model_path.exists():
+                from src.extraction_runtime import FrozenExtractor
+                label = int(FrozenExtractor(model_path).predict([features(marked)])[0])
+                method = "TF-IDF + Logistic Regression"
+            edge = predicted_edge(marked, label)
+            st.session_state.pop("classified_candidate", None)
+            if edge:
+                st.session_state["classified_candidate"] = dict(cause=edge[0], effect=edge[1],
+                    document_id="marked_pair_interactive", sentence_id=1, sentence=marked, method=method)
+                st.info("Candidate available in Text → DAG. Select include latest classified candidate, then review it.")
+            st.write({"method": method, "label": label, "candidate_edge": edge})
+            st.caption("A predicted edge still needs review before graph construction.")

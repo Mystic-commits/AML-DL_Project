@@ -1,0 +1,12 @@
+{
+  "status": "PASS",
+  "mode": "full model reproduction",
+  "checks": [
+    "all artifact hashes",
+    "split isolation",
+    "dev-only selection",
+    "saved-model predictions",
+    "all test metrics",
+    "prediction alignment"
+  ]
+}

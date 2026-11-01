@@ -2,41 +2,41 @@
   "description": "Hypothesis-only diagnostic measuring dataset shortcut artifacts",
   "results": {
     "dev": {
-      "accuracy": 0.7413461538461538,
-      "precision": 0.2831858407079646,
-      "recall": 0.7164179104477612,
-      "f1": 0.40591966173361524,
-      "macro_f1": 0.627254817411032,
+      "accuracy": 0.7153846153846154,
+      "precision": 0.30339805825242716,
+      "recall": 0.9328358208955224,
+      "f1": 0.45787545787545786,
+      "macro_f1": 0.6324579375426833,
       "confusion_matrix": [
         [
-          675,
-          231
+          619,
+          287
         ],
         [
-          38,
-          96
+          9,
+          125
         ]
       ]
     },
     "test": {
-      "accuracy": 0.7308429118773946,
-      "precision": 0.32786885245901637,
-      "recall": 0.7692307692307693,
-      "f1": 0.45977011494252873,
-      "macro_f1": 0.6534912952402137,
+      "accuracy": 0.7270114942528736,
+      "precision": 0.3415233415233415,
+      "recall": 0.8910256410256411,
+      "f1": 0.4937833037300178,
+      "macro_f1": 0.6534490289141892,
       "confusion_matrix": [
         [
-          643,
-          245
+          620,
+          268
         ],
         [
-          36,
-          120
+          17,
+          139
         ]
       ]
     }
   },
   "full_input_test_macro_f1": 0.70025473582612,
-  "hypothesis_only_test_macro_f1": 0.6534912952402137,
-  "interpretation": "The hypothesis-only control model achieves 0.653 test macro F1 without observing the premise, compared to 0.700 for the full input model. This demonstrates that a substantial fraction of the benchmark performance comes from template wording artifacts and label-prior shortcuts rather than formal causal deduction over the premise."
+  "hypothesis_only_test_macro_f1": 0.6534490289141892,
+  "interpretation": "The hypothesis-only model achieves 0.653 test macro F1 without observing the premise, compared to 0.700 for the full input model. This indicates that synthetic benchmark templates contain superficial wording and label-prior shortcuts that a bag-of-words classifier exploits without formal reasoning."
 }
