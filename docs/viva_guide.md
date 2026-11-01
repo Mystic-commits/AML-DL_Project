@@ -2,7 +2,7 @@
 
 ## Your 60-second explanation
 
-Our project separates language processing from formal causal reasoning. In Phase 1 we use classical machine learning. We first test whether a causal hypothesis follows from a Corr2Cause premise. Separately, we classify directed cause-effect relations in SemEval sentences with supplied entity spans. Candidate edges need human review before entering a DAG. The graph rejects cycles and self-loops. Given matching binary observations, we estimate Bayesian conditional probability tables. Finally, we compare observational queries with intervention queries in a controlled synthetic system. Our experiments show that text classification can exploit wording shortcuts, so we do not claim that a high F1 establishes causal understanding. Neural language models are Phase 2 work.
+Our project separates language processing from formal causal reasoning. In Phase 1 we use classical machine learning. We first test whether a causal hypothesis follows from a Corr2Cause premise. Separately, we classify directed cause-effect relations in SemEval sentences with supplied entity spans. Candidate edges need human review before entering a DAG. The graph rejects cycles and self-loops. Given matching binary observations, we estimate Bayesian conditional probability tables. Finally, we compare observational queries with intervention queries in a controlled synthetic system. Our experiments show that text classification can exploit wording shortcuts, so we do not claim that a high F1 establishes causal understanding. 
 
 ## 1. What enters and leaves each component?
 
@@ -69,8 +69,6 @@ Our result averages over the population under a changed mechanism. An individual
 
 ## 11. Questions examiners may ask
 
-**Why is the course title neuro-symbolic if there is no neural model?** The title describes the full two-phase project. This submission implements the classical language-processing and symbolic/probabilistic baseline. A compact transformer comparison is reserved for Phase 2. We do not claim a completed neural hybrid.
-
 **Why add SemEval when Corr2Cause is recommended?** We retain Corr2Cause. Its labels evaluate causal reasoning entailment, so it cannot independently validate extraction. SemEval supplies directed cause-effect relation labels and given entity pairs as a separate benchmark. It does not establish performance on scientific/news documents. The faculty's dataset-flexibility rule permits an additional suitable dataset.
 
 **Why not use random forest like the reference?** Sparse high-dimensional text has a natural linear baseline. The reference's tabular medical preprocessing and tree models solve another problem. We adopt its validation discipline, not an unjustified model checklist.
@@ -93,197 +91,112 @@ Each member should explain the complete pipeline, reproduce one result, derive o
 
 
 
+
 # Presentation delivery and speaking script
 
 ## Timing and suggested speaking roles
 
-The fifteen-slide talk takes approximately 10-12 minutes at a calm pace, including handovers. Allow another 2-3 minutes if the panel requests the live demo. Use the script to rehearse, then speak naturally rather than memorizing every word. Do not read the reference slide aloud.
+This eight-slide talk takes approximately 6 minutes. Allow another 2 minutes only if the panel requests a live demonstration. Rehearse with the script, then speak naturally.
 
-Suggested speaking blocks: Yug slides 1-3, Vidit slides 4-5, Aditya slides 6-7, Kaavya slides 8-11, Ishita slides 12-15. These are presentation assignments only, not statements of who implemented the code. Change the order if your team prefers another distribution. Every member should understand all components for the individual viva.
+Suggested speaking blocks: Yug slides 1-2, Vidit slides 3-4, Aditya slide 5, Kaavya slide 6, Ishita slides 7-8. These are suggested speaking assignments, not claims of implementation ownership. Every member should understand the complete workflow for the individual viva.
 
-Before starting, open the deck in presentation mode, check the screen ratio and test the clicker. Keep the application running with the synthetic teaching example ready. Use eye contact for the main message and point to evidence only when discussing a chart or graph. Pause briefly after each result. Say the task and metric before stating a number.
+Before presenting, open the deck in slideshow mode, check the display and have the offline synthetic demonstration ready. State the task and metric before giving each score. Pause after the key result and use the script's transition to hand over to the next speaker.
 
-For a shortened talk, keep slides 1, 2, 4, 6, 7, 8, 10, 11 and 14. Summarize methodology orally and keep the other slides available for questions. For a five-minute limit, skip the live demo and give one sentence per retained slide.
+## Slide 1: Causal Reasoning
 
-## Slide 1: Neuro-Symbolic Causal Inference
+Suggested presenter: Yug Johri. Target: 30 seconds.
 
-Suggested presenter: Yug Johri. Target: 35 seconds.
-
-Delivery cue: Face the panel. Introduce the team, then pause before naming the problem.
+Delivery cue: Introduce the team and the project in everyday language.
 
 Say:
 
-Good morning. We are Team T094 from Section E. Our project is Neuro-Symbolic Causal Inference through language-based knowledge extraction and Bayesian networks. For Phase 1, we implement the classical machine-learning foundation. The central idea is to separate what a sentence claims from what a causal model can formally answer. We will show our datasets, the language-model comparisons, and how reviewed relations become a Bayesian network.
+Good morning. We are Team T094 from Section E. Our project studies how language-based causal claims can be connected to Bayesian networks. We use classical machine learning to evaluate text and predict candidate relations. We then separate those predictions from the assumptions needed for causal queries. Our presentation covers the workflow, datasets, measured results and the observation-versus-intervention example.
 
-Transition: Let me begin with the problem this separation solves.
+Transition: Here is the overall workflow.
 
-## Slide 2: Problem and Phase 1 scope
+## Slide 2: System Components
 
 Suggested presenter: Yug Johri. Target: 40 seconds.
 
-Delivery cue: Point to the three objectives in order. Explain the distinction, without reading each box.
+Delivery cue: Point to the language evaluation and formal reasoning branches.
 
 Say:
 
-A sentence such as rain causes wet grass gives us a candidate relation. It does not by itself provide probabilities or establish that the relation is causally correct. Our first objective is to extract or classify candidate relations. We then retain provenance and require human review before building a directed acyclic graph. Finally, matching observations estimate conditional probabilities. Phase 1 uses classical classifiers. The transformer-based neural component belongs to Phase 2.
+The language component evaluates two different tasks. Corr2Cause asks whether a hypothesis follows from a premise. SemEval classifies a directed causal relation between two supplied entities. Candidate edges need human approval and sentence provenance before entering a directed acyclic graph. Matching observations then estimate the Bayesian probability tables. This keeps language predictions, graph validity and causal assumptions separate.
 
-Transition: The next slide shows how these components fit together.
+Transition: Vidit will explain the data and model choices.
 
-## Slide 3: System components
+## Slide 3: Datasets and Split Integrity
 
-Suggested presenter: Yug Johri. Target: 40 seconds.
+Suggested presenter: Vidit Sachan. Target: 40 seconds.
 
-Delivery cue: Distinguish the separate language tasks before describing the graph path.
-
-Say:
-
-There are two language evaluations. Corr2Cause asks whether a causal hypothesis follows from a premise. SemEval asks which direction of cause and effect connects two supplied entity spans, or whether there is no causal relation. These are different tasks, so their scores must remain separate. Candidate edges can then enter a reviewed DAG. When matching observations are available, we fit a Bayesian network and compare observational queries with interventions.
-
-Transition: Vidit will now explain the data and the classical models.
-
-## Slide 4: Dataset quality and separation
-
-Suggested presenter: Vidit Sachan. Target: 50 seconds.
-
-Delivery cue: Point to both split sizes. Emphasize the evaluation unit and the limitation.
+Delivery cue: State the split sizes briefly, then focus on leakage prevention.
 
 Say:
 
-For Corr2Cause, we use a bounded prefix of twelve thousand training rows. After removing exact premise overlap, we retain one thousand forty development rows and one thousand forty-four test rows. For SemEval, the partitions contain sixty-four hundred training, sixteen hundred development, and twenty-seven hundred retained test examples. Multiple entity pairs from the same normalized sentence stay together. SemEval supplies entity spans but no document IDs, so we can claim sentence-group separation, not full document independence. All learned text features fit training data only.
+Corr2Cause uses twelve thousand training rows, with one thousand forty development and one thousand forty-four retained test rows. The extraction extension uses sixty-four hundred training, sixteen hundred development and twenty-seven hundred retained test pairs. We separate exact premise groups for reasoning and sentence groups for extraction. SemEval supplies the entity spans and lacks document identifiers, which limits our evaluation claim. All learned text features fit training data only.
 
-Transition: Here is how we represent those texts and train the models.
+Transition: The next slide shows how those texts become model inputs.
 
-## Slide 5: Features and classical models
+## Slide 4: Classical Text Models
 
-Suggested presenter: Vidit Sachan. Target: 50 seconds.
+Suggested presenter: Vidit Sachan. Target: 45 seconds.
 
-Delivery cue: Explain TF-IDF in one sentence and C in one sentence. Avoid deriving every equation unless asked.
-
-Say:
-
-TF-IDF represents a sentence using weighted words and short phrases. Frequent corpus-wide terms receive less weight, while bigrams preserve cues such as caused by. Balanced Logistic Regression gives rare classes more influence during training. Corr2Cause compares majority prediction, Naive Bayes and Logistic Regression, with a unigram ablation. For directed extraction, the context model masks actual entity strings while preserving entity-one and entity-two markers. We select regularization C from zero point one, one and ten using development edge F1. The entity-only ablation removes surrounding context.
-
-Transition: Aditya will present the results and explain what they do and do not establish.
-
-## Slide 6: Reasoning results and shortcut diagnostic
-
-Suggested presenter: Aditya Verma. Target: 50 seconds.
-
-Delivery cue: Point first to the full-input score, then the hypothesis-only control. Say macro F1 explicitly.
+Delivery cue: Explain TF-IDF simply and emphasize development-only selection.
 
 Say:
 
-On Corr2Cause, the selected full-text model achieves a test macro F1 of zero point seven zero zero. The majority baseline reaches about zero point four six zero. However, a hypothesis-only control reaches zero point six five three without reading the premise. This tells us that wording patterns provide substantial predictive signal. We therefore describe the model as a useful text-classification baseline rather than proof of formal causal reasoning. The full-input model also has positive precision of about zero point three nine two, despite high recall.
+TF-IDF represents texts using weighted words and short phrases. Bigrams preserve cues such as caused by. Balanced Logistic Regression helps account for class imbalance. We compare it with majority prediction, Naive Bayes and simpler feature controls. In extraction, the context model replaces entity strings with entity-one and entity-two markers. We choose regularization using development edge F1, not test labels. The entity-only ablation removes surrounding context.
 
-Transition: The extraction benchmark evaluates a more direct language-processing task.
+Transition: Aditya will explain the reasoning results and their main limitation.
 
-## Slide 7: Directed extraction results
+## Slide 5: Reasoning Results
 
-Suggested presenter: Aditya Verma. Target: 50 seconds.
+Suggested presenter: Aditya Verma. Target: 45 seconds.
 
-Delivery cue: Point to the context model and the two controls. Define a reversed edge before stating the conclusion.
-
-Say:
-
-Here the target is a directed cause-effect relation between two given entities. A reverse-direction prediction counts as both a false positive and a false negative. Context TF-IDF with Logistic Regression achieves directed edge F1 of zero point eight two zero. Lexical rules reach zero point seven four two, and the entity-only ablation reaches zero point five zero three. The comparison supports the value of sentence context. It does not establish causal truth or end-to-end entity discovery. These are results for a derived three-class task, not the official nineteen-class SemEval score.
-
-Transition: Kaavya will now show how candidate relations enter the formal reasoning stage.
-
-## Slide 8: Edge review and DAG validation
-
-Suggested presenter: Kaavya Gala. Target: 40 seconds.
-
-Delivery cue: Trace the accepted DAG, then point to the rejected reverse relation in the caption.
+Delivery cue: Name macro F1 before pointing to the full-input and hypothesis-only bars.
 
 Say:
 
-Each candidate retains the document ID, sentence ID, original sentence and method. A reviewer explicitly approves an edge before graph construction. The graph builder rejects self-loops, duplicate edges and an edge that would close a directed cycle. For example, rain to wet grass and wet grass to rain cannot both remain in our static DAG. Our procedure follows source order. This guarantees acyclicity, but it does not determine which causal explanation is true. Domain review is still necessary.
+The full-text Corr2Cause model reaches a test macro F1 of zero point seven zero zero. The majority baseline reaches about zero point four six zero. However, the hypothesis-only control reaches zero point six five three without reading the premise. This indicates that wording shortcuts provide substantial signal. We therefore present the model as a classical text-classification baseline and do not treat its score as proof of formal causal understanding.
 
-Transition: After reviewing the structure, we need a separate source for probabilities.
+Transition: Kaavya will now explain the separate extraction result.
 
-## Slide 9: Reviewed graph to Bayesian network
+## Slide 6: Directed Extraction
 
 Suggested presenter: Kaavya Gala. Target: 45 seconds.
 
-Delivery cue: Stress that observations supply CPDs. Do not call classifier scores causal probabilities.
+Delivery cue: Compare the context model with both controls and explain direction errors.
 
 Say:
 
-Approved edges define the network structure. A table of complete binary observations supplies the variable values used to estimate conditional probability distributions, or CPDs. Column names must match the graph nodes. We fit the CPDs using BDeu smoothing with equivalent sample size five. The reviewer records a causal rationale and assumptions about observed confounders and stable mechanisms. Mention counts and classifier scores never become CPDs. The application can now fit a reviewed graph and run queries under these stated assumptions.
+For directed extraction, context TF-IDF with Logistic Regression reaches edge F1 of zero point eight two zero. Lexical rules reach zero point seven four two, and the entity-only ablation reaches zero point five zero three. Predicting the reverse direction creates both a false positive and a false negative. These results show the value of sentence context on this given-entity task. They do not establish causal truth or automatic entity discovery. Proposed edges still require review before Bayesian fitting.
 
-Transition: We can now explain why observing a variable differs from intervening on it.
+Transition: Ishita will explain what the Bayesian stage adds.
 
-## Slide 10: Observation and intervention
+## Slide 7: Observation and Intervention
 
-Suggested presenter: Kaavya Gala. Target: 50 seconds.
+Suggested presenter: Ishita Thakur. Target: 50 seconds.
 
-Delivery cue: Say the two questions in everyday language before reading their formulas.
-
-Say:
-
-Observation asks: among cases where the sprinkler is on, how often is the grass wet? Intervention asks: if we force the sprinkler on, how often would the grass be wet in the population? In our synthetic system, rain affects sprinkler use and also wets the grass. Observing sprinkler status therefore changes our information about rain. Intervening removes the incoming mechanism that normally determines sprinkler status. This difference depends on the supplied causal graph and its assumptions. It is a population intervention, not an individual counterfactual.
-
-Transition: The next slide checks those intervention calculations against known answers.
-
-## Slide 11: Intervention validation
-
-Suggested presenter: Kaavya Gala. Target: 50 seconds.
-
-Delivery cue: Point to observed, fitted and oracle values. Work through the sprinkler-on oracle verbally.
+Delivery cue: Explain both questions in plain language before referring to formulas.
 
 Say:
 
-We generate six thousand observations from a known three-variable system. The exact sprinkler-on intervention probability is zero point three times zero point nine nine, plus zero point seven times zero point eight, which equals zero point eight five seven. With the sprinkler off, the oracle is zero point two eight four. Our fitted values are about zero point eight four six and zero point two seven five. The maximum absolute error is about zero point zero one one. This validates our implementation on the known teaching system, not causal discovery in the real world.
+Observation asks how often the grass is wet among cases where the sprinkler is on. Intervention asks what happens if we force the sprinkler on in the population. Rain affects both sprinkler use and wet grass, so observing sprinkler status also gives information about rain. An intervention breaks the incoming sprinkler mechanism. Our approved graph is a DAG, and matching binary observations estimate its conditional probability tables using BDeu smoothing. Causal interpretation depends on the graph, observed confounders and stable mechanisms.
 
-Transition: Ishita will finish with reproducibility, limitations and our main findings.
+Transition: The final slide checks those calculations and summarizes our findings.
 
-## Slide 12: Reproducibility and demonstration
+## Slide 8: Results and Conclusions
 
-Suggested presenter: Ishita Thakur. Target: 40 seconds.
+Suggested presenter: Ishita Thakur. Target: 50 seconds.
 
-Delivery cue: Describe the verification evidence, then offer the live demonstration only if time permits.
-
-Say:
-
-We pin dataset versions and record input hashes, split memberships and model-selection choices. The extraction run saves predictions, metrics, model parameters and environment details. A separate verifier reconstructs reported metrics and checks split isolation and saved-model predictions. Seventeen automated tests pass, and the notebook executes successfully. The Streamlit application demonstrates classification, edge review, Bayesian fitting and intervention queries. The synthetic teaching data and the real text benchmarks remain clearly labeled.
-
-Transition: These checks make the implementation inspectable, but important research limitations remain.
-
-## Slide 13: Limitations and Phase 2
-
-Suggested presenter: Ishita Thakur. Target: 40 seconds.
-
-Delivery cue: Deliver this calmly as scope control. Do not describe unimplemented work as completed.
+Delivery cue: Point to fitted and oracle values, then end with the project contribution.
 
 Say:
 
-The extraction benchmark supplies entity spans and does not validate scientific or news documents. Sentence grouping cannot guarantee document independence. Acyclicity and reviewer approval do not prove causal correctness. Real-world effects still require defensible structure, measured confounders and adequate observational support. We have not implemented individual counterfactual inference. Phase 2 will compare a compact transformer under the same evaluation contract and assess whether a neural hybrid adds measurable value.
+We validate the Bayesian implementation using six thousand synthetic observations from a known system. With the sprinkler forced on, the exact wet-grass probability is zero point eight five seven and the fitted value is about zero point eight four six. With it off, the values are zero point two eight four and zero point two seven five. The maximum absolute error is approximately zero point zero one one. Our conclusion is that context helps relation classification, while formal causal querying additionally needs reviewed structure, suitable observations and explicit assumptions. The notebook, saved-run verifier and seventeen passing tests make the workflow inspectable. Thank you. We are ready for questions.
 
-Transition: Within that Phase 1 scope, these are the conclusions supported by our evidence.
-
-## Slide 14: Key findings
-
-Suggested presenter: Ishita Thakur. Target: 35 seconds.
-
-Delivery cue: Make eye contact and summarize the two main contributions without reading a checklist.
-
-Say:
-
-Our first finding is that classical context features improve directed relation classification over lexical rules and entity strings alone. Our second is that language predictions must remain separate from causal identification. The implemented bridge combines reviewed structure, matching observations and Bayesian queries, while retaining provenance and explicit assumptions. The strongest contribution is an auditable workflow that makes its evidence and failure modes visible. Thank you. We are ready for your questions.
-
-Transition: The final slide lists the main references supporting our approach.
-
-## Slide 15: Selected references
-
-Suggested presenter: Ishita Thakur. Target: 15 seconds.
-
-Delivery cue: Keep this slide available during questions. Do not read every reference aloud.
-
-Say:
-
-Our formal foundation comes from Pearl's work on probabilistic and causal reasoning. Corr2Cause provides the reasoning benchmark, SemEval provides directed relation labels, and pgmpy supplies Bayesian-network inference. BERT is part of our Phase 2 reading. We can explain how each reference influenced a specific design choice.
-
-Transition: Invite questions, or return to the relevant result slide when answering.
+Transition: Keep this result slide visible for questions. Offer the live demonstration if requested.
 
 ## Live-demo script and recovery plan
 
@@ -293,7 +206,7 @@ In Text to DAG, enter: Rain causes sprinkler. Rain causes wet grass. Sprinkler c
 
 Select synthetic observations, enter your actual reviewer name and the rationale "Known synthetic generating graph", and explicitly check the stated assumptions. Fit the network. Set sprinkler to one and query wet grass. Say: "The fitted intervention probability is close to the known value 0.857. Its small difference reflects sampled observations and smoothing."
 
-If the internet fails, use the bundled offline inference and synthetic example. If the live app fails, return to slide 11 and explain the saved oracle comparison. Do not invent a result or claim the live demo succeeded. If time runs short, skip the demo and move to the key findings.
+If the internet fails, use the bundled offline inference and synthetic example. If the live app fails, return to slide 8 and explain the saved oracle comparison. Do not invent a result or claim the live demo succeeded. If time runs short, skip the demo and move to the key findings.
 
 ## Answering questions professionally
 

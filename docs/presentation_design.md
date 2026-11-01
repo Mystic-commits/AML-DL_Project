@@ -3,7 +3,7 @@
 The presentation adapts the user-supplied **Red Beige Bold Brand Strategy Presentation** from Canva:
 https://canva.link/66cbf6sk1v4jjl1
 
-The source uses a 1920 by 1080 canvas, Poppins/Poppins Bold typography, warm beige (#F8F4EC), deep red (#BF092F), and restrained brown (#594832). Its ten layouts were inspected and reused or duplicated to accommodate fifteen academic slides. The template's skincare photographs were replaced with research metaphors, project evidence and a causal DAG. The reference branding and placeholder prose were replaced with team and project content.
+The source uses a 1920 by 1080 canvas, Poppins/Poppins Bold typography, warm beige (#F8F4EC), deep red (#BF092F), and restrained brown (#594832). Its ten layouts were inspected and reused or duplicated to accommodate eight academic slides. The template's skincare photographs were replaced with research metaphors, project evidence and a causal DAG. The reference branding and placeholder prose were replaced with team and project content.
 
 All result charts and the explanatory DAG remain editable. Speaker notes contain the full slide script, timing, delivery cue, transition and source context. The companion viva guide retains the technical tutorial and adds a suggested five-member speaking plan, a shorter-talk route, and live-demo recovery guidance. Suggested speaking assignments are not claims of implementation ownership.
 
