@@ -78,4 +78,4 @@ The [deployment notes](docs/deployment.md) describe hosting from `main` with ent
 
 Yug Johri, Vidit Sachan, Aditya Verma and Ishita Thakur.
 
-Special guest: Kaavya Gala.
+Special Mention: Kaavya Gala.
