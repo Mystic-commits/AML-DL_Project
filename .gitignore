@@ -19,3 +19,8 @@ artifacts/runs/**/model.joblib
 artifacts/runs/**/train.csv
 artifacts/runs/**/dev.csv
 artifacts/runs/**/test.csv
+
+# Reports, slide decks and study handouts are submitted separately.
+/docs/*.pdf
+/docs/*.pptx
+/submissions/
