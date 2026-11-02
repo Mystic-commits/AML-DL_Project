@@ -20,7 +20,7 @@ def test_every_page_renders_without_exception():
 
     pages_to_test = [
         "Overview",
-        "Viva demo",
+        "Walkthrough",
         "Reasoning lab",
         "Text → DAG",
         "Intervention lab",
@@ -44,7 +44,7 @@ def test_every_page_renders_without_exception():
 
 def test_guided_demo_requires_review_and_fits_real_network():
     app = AppTest.from_file(str(ROOT / "app.py"), default_timeout=90).run()
-    app.sidebar.radio[0].set_value("Viva demo").run()
+    app.sidebar.radio[0].set_value("Walkthrough").run()
     assert not app.exception
     assert not app.button
     app.checkbox(key="demo_review").check().run()

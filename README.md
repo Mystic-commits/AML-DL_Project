@@ -18,7 +18,7 @@ Open `http://localhost:8501`. On macOS, `run.command` launches the app after env
 
 ## What the app does
 
-- **Viva demo:** guided synthetic example, from candidate review to DAG validation, Bayesian fitting and intervention queries.
+- **Walkthrough:** guided synthetic example, from candidate review to DAG validation, Bayesian fitting and intervention queries.
 - **Reasoning lab:** binary claim entailment using the saved Corr2Cause classifier.
 - **Extraction benchmark:** directed classification between supplied entity spans using a separate SemEval model.
 - **Text → DAG:** review candidate relations, reject invalid edges, and fit probability tables from matching binary observations.

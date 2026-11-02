@@ -4,9 +4,9 @@ Open https://causal-workbench-t094.streamlit.app/ or run `python -m streamlit ru
 
 ## Guided example
 
-1. Select **Viva demo** and read the four source statements.
+1. Select **Walkthrough** and read the four source statements.
 2. Tick the review checkbox. The builder accepts three edges and rejects wet_grass → rain because it would close a cycle in source order.
-3. Confirm the supplied synthetic-generator assumptions and press **Fit teaching network**.
+3. Confirm the supplied synthetic-generator assumptions and press **Learn from the example data**.
 4. Toggle the sprinkler OFF and ON. Compare observed and intervention probabilities with the known generating-process answer.
 5. Expand the fitted tables or download the network audit if needed.
 

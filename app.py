@@ -53,7 +53,7 @@ page = st.sidebar.radio(
     "Workspace",
     [
         "Overview",
-        "Viva demo",
+        "Walkthrough",
         "Reasoning lab",
         "Text → DAG",
         "Intervention lab",
@@ -111,7 +111,7 @@ st.markdown(
 #  PAGE: Overview
 # ═══════════════════════════════════════════════════
 
-if page == "Viva demo":
+if page == "Walkthrough":
     from src.demo_ui import render_demo
     render_demo()
 
@@ -124,7 +124,7 @@ elif page == "Overview":
         "reviewing extracted relations, and asking explicit intervention questions."
     )
 
-    st.info("Presenting this project? Select Viva demo in the sidebar for a guided three-minute walkthrough.")
+    st.info("New here? Select Walkthrough in the sidebar to try the project step by step.")
     st.image(str(ROOT / "assets/research-hands.png"), use_container_width=True)
     st.markdown('<div class="rule"></div>', unsafe_allow_html=True)
 
