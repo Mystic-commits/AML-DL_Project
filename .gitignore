@@ -24,3 +24,10 @@ artifacts/runs/**/test.csv
 /docs/*.pdf
 /docs/*.pptx
 /submissions/
+
+# Neural checkpoints and full training records stay local; publish evaluated summaries.
+artifacts/phase2/runs/
+*.safetensors
+*.onnx
+*.pt
+*.pth
