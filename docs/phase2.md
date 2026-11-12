@@ -59,3 +59,15 @@ python -m pytest -q
 Prepared corpus text lives in ignored `data/processed/phase2_extraction`. A fresh output directory is required for each smoke run. The smoke command downloads the pinned pretrained model, checks entity-marker retention on training inputs, takes two optimizer steps on a small training sample, and verifies safetensors save/reload on CPU. It does not evaluate test examples or claim a trained release.
 
 `configs/phase2_extraction.json` is the intended full experiment configuration, not trained weights. `artifacts/phase2/data_audit.json` records the exact shared data contract. The full fine-tuning runner and hosted neural inference integration belong to the following stages.
+
+## Completed: Day 1 (12 November)
+
+- Pinned the official DistilBERT revision and isolated the optional DL requirements.
+- Verified all data hashes and exact equality with the classical split: 6,400 train / 1,600 dev / 2,700 test.
+- Added entity masking, token-truncation guards, training-only class weights and neural training primitives.
+- Ran the real 66M-parameter pretrained model on Apple MPS for two engineering optimizer steps. The classification weights changed, losses were finite, and all training entity markers survived the 128-token budget (maximum observed training length: 122).
+- Saved and reloaded a safetensors checkpoint. Maximum probability difference on CPU: approximately 0.00000003.
+- All 22 local tests passed, including the existing Streamlit pages. The historical extraction verifier passed.
+- `artifacts/phase2/smoke_report.json` is an engineering receipt, not a trained release or an extraction score. The checkpoint stays local and is not offered in the hosted app.
+
+Next milestone: implement the full epoch-based training runner, learning curves, development-only checkpoint selection and frozen-encoder ablation. Do not use the two-step smoke checkpoint for evaluation or deployment.
