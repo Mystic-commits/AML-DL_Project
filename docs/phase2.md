@@ -44,3 +44,18 @@ The hybrid connects neural language predictions to human review, canonical entit
 - PyTorch MPS backend: https://docs.pytorch.org/docs/stable/notes/mps.html
 - SemEval Task 8: https://aclanthology.org/S10-1006/
 - Existing dataset contracts: data_dictionary.md. Classical reproduction: experiments.md.
+
+## Day 1 commands
+
+Use Python 3.12 and install the optional training environment separately from the host:
+
+```sh
+python -m pip install -r requirements-dl.txt
+python -m scripts.prepare_neural_data
+python -m scripts.smoke_neural --output artifacts/phase2/runs/my_smoke
+python -m pytest -q
+```
+
+Prepared corpus text lives in ignored `data/processed/phase2_extraction`. A fresh output directory is required for each smoke run. The smoke command downloads the pinned pretrained model, checks entity-marker retention on training inputs, takes two optimizer steps on a small training sample, and verifies safetensors save/reload on CPU. It does not evaluate test examples or claim a trained release.
+
+`configs/phase2_extraction.json` is the intended full experiment configuration, not trained weights. `artifacts/phase2/data_audit.json` records the exact shared data contract. The full fine-tuning runner and hosted neural inference integration belong to the following stages.

@@ -1,0 +1,35 @@
+name: Optional neural component checks
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - 'src/neural*.py'
+      - 'tests/test_neural*.py'
+      - 'requirements-dl.txt'
+      - '.github/workflows/neural-tests.yml'
+  pull_request:
+    paths:
+      - 'src/neural*.py'
+      - 'tests/test_neural*.py'
+      - 'requirements-dl.txt'
+      - '.github/workflows/neural-tests.yml'
+jobs:
+  offline-neural-tests:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: pip
+          cache-dependency-path: requirements-dl.txt
+      - name: Install CPU-only PyTorch
+        run: python -m pip install torch==2.15.0 --index-url https://download.pytorch.org/whl/cpu
+      - name: Install data and transformer test dependencies
+        run: python -m pip install transformers==5.22.1 safetensors==0.8.0 huggingface-hub==2.4.0 tokenizers==0.23.3 pandas scikit-learn pytest
+      - name: Validate masking, leakage guards, backpropagation and checkpoint reload offline
+        env:
+          HF_HUB_OFFLINE: '1'
+          TRANSFORMERS_OFFLINE: '1'
+        run: python -m pytest tests/test_neural.py tests/test_neural_data.py -q
