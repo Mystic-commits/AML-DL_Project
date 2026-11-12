@@ -1,0 +1,75 @@
+{
+  "schema_version": 1,
+  "dataset": "SemEvalWorkshop/sem_eval_2010_task_8",
+  "dataset_revision": "d58325907b9bf84a7c81f81fe5372791d911c10c",
+  "source_files": {
+    "train": {
+      "url": "https://huggingface.co/datasets/SemEvalWorkshop/sem_eval_2010_task_8/resolve/d58325907b9bf84a7c81f81fe5372791d911c10c/data/train-00000-of-00001.parquet",
+      "sha256": "06ab732f8e8f3e9b7b40d55fc5eee8f6f5a288ff432d03dde028d157119eced4"
+    },
+    "test": {
+      "url": "https://huggingface.co/datasets/SemEvalWorkshop/sem_eval_2010_task_8/resolve/d58325907b9bf84a7c81f81fe5372791d911c10c/data/test-00000-of-00001.parquet",
+      "sha256": "08ed740fc18a3ffe47d00d46b4f8e8227fc2f6223b57f61f9c7d8e85221fcb6d"
+    }
+  },
+  "raw_checks": {
+    "train": {
+      "raw_rows": 8000,
+      "missing_sentence": 0,
+      "missing_relation": 0,
+      "duplicate_pairs_removed": 0
+    },
+    "test": {
+      "raw_rows": 2717,
+      "missing_sentence": 0,
+      "missing_relation": 0,
+      "duplicate_pairs_removed": 0
+    }
+  },
+  "test_sentence_overlap_removed": 17,
+  "frozen_reference_partition_sha256": "ef35accab95ba30d9e4431709dd98cb73640850716b94c007370cd0587eebe69",
+  "identical_classical_partition": true,
+  "pairwise_group_overlap": {
+    "train_dev": 0,
+    "train_test": 0,
+    "dev_test": 0
+  },
+  "counts": {
+    "train": {
+      "rows": 6400,
+      "labels": {
+        "0": 5598,
+        "1": 275,
+        "2": 527
+      }
+    },
+    "dev": {
+      "rows": 1600,
+      "labels": {
+        "0": 1399,
+        "1": 69,
+        "2": 132
+      }
+    },
+    "test": {
+      "rows": 2700,
+      "labels": {
+        "0": 2373,
+        "1": 134,
+        "2": 193
+      }
+    }
+  },
+  "local_files_sha256": {
+    "dev.csv": "f585772662500b74b14e381f8a86e97f2a1fb430a68f3eb101efb0620a87b425",
+    "partitions.csv": "ef35accab95ba30d9e4431709dd98cb73640850716b94c007370cd0587eebe69",
+    "test.csv": "c1dd19d836a55ec3111e3761e59fa0a280a9c23e74ef16f108ac0301c8ff35f0",
+    "train.csv": "678377cfd6864242c86b3b0febf2ba51c82963932381e27ca211364b05b58fe2"
+  },
+  "representation": "Same entity-masked context as ML, with [E1] and [E2] special tokens",
+  "scope": "Data verification only. No training or test prediction results.",
+  "limitations": [
+    "Given entity spans",
+    "Sentence groups only; no document identifiers"
+  ]
+}
