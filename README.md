@@ -4,6 +4,10 @@ Classical machine learning for causal claim reasoning and directed relation extr
 
 **[Open the live Streamlit app](https://causal-workbench-t094.streamlit.app/)**
 
+## Phase 2 development
+
+A neural extraction extension is being developed in small, tested stages. See the [five-day plan and evaluation contract](docs/phase2.md). Phase 1 metrics below remain the completed baseline; no neural improvement is claimed yet.
+
 ## Run locally
 
 Use Python 3.12:
