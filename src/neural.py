@@ -83,6 +83,8 @@ def train_step(model, batch, optimizer, weights=None, max_grad_norm=1.0):
     import torch
     from torch.nn import functional as F
     model.train()
+    if not any(p.requires_grad for p in model.base_model.parameters()):
+        model.base_model.eval()
     optimizer.zero_grad(set_to_none=True)
     labels = batch['labels']
     logits = model(**{k: v for k, v in batch.items() if k != 'labels'}).logits

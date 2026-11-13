@@ -5,12 +5,16 @@ on:
     paths:
       - 'src/neural*.py'
       - 'tests/test_neural*.py'
+      - 'scripts/train_neural.py'
+      - 'scripts/verify_neural_run.py'
       - 'requirements-dl.txt'
       - '.github/workflows/neural-tests.yml'
   pull_request:
     paths:
       - 'src/neural*.py'
       - 'tests/test_neural*.py'
+      - 'scripts/train_neural.py'
+      - 'scripts/verify_neural_run.py'
       - 'requirements-dl.txt'
       - '.github/workflows/neural-tests.yml'
 jobs:
@@ -32,4 +36,4 @@ jobs:
         env:
           HF_HUB_OFFLINE: '1'
           TRANSFORMERS_OFFLINE: '1'
-        run: python -m pytest tests/test_neural.py tests/test_neural_data.py -q
+        run: python -m pytest tests/test_neural.py tests/test_neural_data.py tests/test_neural_training.py -q

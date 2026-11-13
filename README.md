@@ -1,12 +1,14 @@
 # Causal Workbench
 
-Classical machine learning for causal claim reasoning and directed relation extraction, with reviewed graphs and Bayesian intervention queries. Phase 1, Team T094, Section E.
+Classical machine learning for causal claim reasoning and directed relation extraction, with reviewed graphs and Bayesian intervention queries. Team T094, Section E. Phase 1 baseline with a Phase 2 neural extension in progress.
 
 **[Open the live Streamlit app](https://causal-workbench-t094.streamlit.app/)**
 
 ## Phase 2 development
 
-A neural extraction extension is being developed in small, tested stages. See the [five-day plan and evaluation contract](docs/phase2.md). Phase 1 metrics below remain the completed baseline; no neural improvement is claimed yet.
+DistilBERT fine-tuning and a frozen-encoder control are complete for seed 42. Their **development** directed edge F1 scores are **0.839** and **0.380**, versus the historical TF-IDF/LR development score of **0.739** on the same split. Neural held-out test evaluation and hosted integration are pending. These development-selected scores do not establish a test-set improvement.
+
+See the [five-day plan, training commands and evaluation contract](docs/phase2.md) and [verified development results](artifacts/phase2/development/day2_20261113/summary.json). The Phase 1 results below remain the existing held-out baselines.
 
 ## Run locally
 
