@@ -58,7 +58,7 @@ python -m pytest -q
 
 Prepared corpus text lives in ignored `data/processed/phase2_extraction`. A fresh output directory is required for each smoke run. The smoke command downloads the pinned pretrained model, checks entity-marker retention on training inputs, takes two optimizer steps on a small training sample, and verifies safetensors save/reload on CPU. It does not evaluate test examples or claim a trained release.
 
-`configs/phase2_extraction.json` is the intended full experiment configuration, not trained weights. `artifacts/phase2/data_audit.json` records the exact shared data contract. The full fine-tuning runner and hosted neural inference integration belong to the following stages.
+`configs/phase2_extraction.json` is the intended full experiment configuration, not trained weights. `artifacts/phase2/data_audit.json` records the exact shared data contract. The full fine-tuning runner is documented under Day 2 below. Hosted neural inference integration belongs to Day 3.
 
 ## Completed: Day 1 (12 November)
 
@@ -71,3 +71,40 @@ Prepared corpus text lives in ignored `data/processed/phase2_extraction`. A fres
 - `artifacts/phase2/smoke_report.json` is an engineering receipt, not a trained release or an extraction score. The checkpoint stays local and is not offered in the hosted app.
 
 Next milestone: implement the full epoch-based training runner, learning curves, development-only checkpoint selection and frozen-encoder ablation. Do not use the two-step smoke checkpoint for evaluation or deployment.
+
+## Completed: Day 2 (13 November)
+
+Full training now runs through `scripts/train_neural.py`. Each run validates the frozen train/dev file hashes, preserves entity markers, records all four epochs, selects the highest development directed edge F1 (earliest epoch wins ties), and reloads the selected safetensors checkpoint to reproduce its development predictions. The runner never opens the test partition.
+
+| Model / variant | Seed | Selected epoch | Development edge precision | Development edge recall | Development edge F1 |
+|---|---:|---:|---:|---:|---:|
+| Fine-tuned DistilBERT, weighted loss | 42 | 4 | 0.813 | 0.866 | 0.839 |
+| Frozen DistilBERT encoder + trained head, weighted loss | 42 | 3 | 0.373 | 0.388 | 0.380 |
+| Historical TF-IDF/LR, C=10 | 42 | n/a | 0.753 | 0.726 | 0.739 |
+
+All scores in this table are **development scores**, selected using development data. They are not the Phase 1 test F1 of 0.820 and do not replace a held-out neural test evaluation. The two neural variants start from the same upstream model revision and seed, use identical input rows and masking, batch size 16, four epochs, learning rate 0.00002, weight decay 0.01, dropout 0.2 and gradient clipping at 1.0. Loss weights are computed from training labels only.
+
+The frozen encoder stays in evaluation mode with its parameters disabled for gradients. Its classification head remains trainable. This removes encoder updates and encoder dropout noise; it is a fixed-budget control, not an optimally tuned frozen-feature classifier. The frozen head may benefit from its own learning-rate search or a different fitting approach. Different historical ML tuning budgets also limit interpretation of the comparison.
+
+The fine-tuned run updated 66,957,315 parameters. The frozen run trained 592,899 head parameters. Training plus per-epoch development evaluation/checkpoint saving took approximately 205 seconds and 54 seconds respectively on this Apple GPU; these are observed local run durations, not deployment latency benchmarks. The final checkpoint-reload maximum probability differences were below 0.000003 for both runs. Fine-tuned development F1 improved across four epochs while cross-entropy reached its minimum earlier; confidence calibration is not established by this experiment.
+
+Evidence: `artifacts/phase2/development/day2_20261113/` contains the comparison, learning curves, epoch histories, aligned development predictions, full run configuration/environment/hash records and verification receipts. Full corpus text and checkpoint weights remain local under ignored directories. There is one neural seed per variant so far; repeated seeds, loss ablations and held-out testing remain scheduled for Day 4.
+
+### Reproduce Day 2
+
+```sh
+python -m scripts.train_neural --variant fine_tuned_weighted --seed 42 --output artifacts/phase2/runs/new_finetuned_seed42
+python -m scripts.train_neural --variant frozen_encoder_weighted --seed 42 --output artifacts/phase2/runs/new_frozen_seed42
+python -m scripts.verify_neural_run artifacts/phase2/runs/new_finetuned_seed42
+python -m scripts.verify_neural_run artifacts/phase2/runs/new_frozen_seed42
+python -m scripts.summarize_neural_development --runs artifacts/phase2/runs/new_finetuned_seed42 artifacts/phase2/runs/new_frozen_seed42 --output artifacts/phase2/development/new_comparison
+```
+
+To verify the committed records without downloading model weights:
+
+```sh
+python -m scripts.verify_neural_run artifacts/phase2/development/day2_20261113/fine_tuned_weighted_seed42 --portable
+python -m scripts.verify_neural_run artifacts/phase2/development/day2_20261113/frozen_encoder_weighted_seed42 --portable
+```
+
+Next milestone: Day 3 reviewed neural candidate integration with the existing DAG and Bayesian workflow. The public app still serves evaluated classical models until that integration and its hosting checks are ready.
