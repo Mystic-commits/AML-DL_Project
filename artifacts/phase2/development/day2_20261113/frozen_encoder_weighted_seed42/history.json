@@ -1,0 +1,130 @@
+[
+  {
+    "epoch": 1,
+    "mean_training_batch_loss": 1.0357429386675359,
+    "dev": {
+      "unweighted_cross_entropy": 0.8003920942544938,
+      "edge_precision": 0.375,
+      "edge_recall": 0.29850746268656714,
+      "edge_f1": 0.33240997229916897,
+      "macro_f1": 0.4488331958162643,
+      "tp": 60,
+      "fp": 100,
+      "fn": 141,
+      "confusion_matrix": [
+        [
+          1328,
+          0,
+          71
+        ],
+        [
+          40,
+          0,
+          29
+        ],
+        [
+          72,
+          0,
+          60
+        ]
+      ]
+    },
+    "epoch_seconds": 13.69
+  },
+  {
+    "epoch": 2,
+    "mean_training_batch_loss": 0.9437537735700607,
+    "dev": {
+      "unweighted_cross_entropy": 0.728379835486412,
+      "edge_precision": 0.32677165354330706,
+      "edge_recall": 0.4129353233830846,
+      "edge_f1": 0.3648351648351648,
+      "macro_f1": 0.45130445998533997,
+      "tp": 83,
+      "fp": 171,
+      "fn": 118,
+      "confusion_matrix": [
+        [
+          1268,
+          0,
+          131
+        ],
+        [
+          29,
+          0,
+          40
+        ],
+        [
+          49,
+          0,
+          83
+        ]
+      ]
+    },
+    "epoch_seconds": 13.3
+  },
+  {
+    "epoch": 3,
+    "mean_training_batch_loss": 0.8793471144884825,
+    "dev": {
+      "unweighted_cross_entropy": 0.6071577674150467,
+      "edge_precision": 0.37320574162679426,
+      "edge_recall": 0.3880597014925373,
+      "edge_f1": 0.38048780487804884,
+      "macro_f1": 0.47209321004387417,
+      "tp": 78,
+      "fp": 131,
+      "fn": 123,
+      "confusion_matrix": [
+        [
+          1304,
+          0,
+          95
+        ],
+        [
+          32,
+          1,
+          36
+        ],
+        [
+          55,
+          0,
+          77
+        ]
+      ]
+    },
+    "epoch_seconds": 13.4
+  },
+  {
+    "epoch": 4,
+    "mean_training_batch_loss": 0.8327103811502456,
+    "dev": {
+      "unweighted_cross_entropy": 0.6697383958101273,
+      "edge_precision": 0.3111888111888112,
+      "edge_recall": 0.4427860696517413,
+      "edge_f1": 0.36550308008213556,
+      "macro_f1": 0.5510500166386154,
+      "tp": 89,
+      "fp": 197,
+      "fn": 112,
+      "confusion_matrix": [
+        [
+          1256,
+          53,
+          90
+        ],
+        [
+          21,
+          35,
+          13
+        ],
+        [
+          37,
+          41,
+          54
+        ]
+      ]
+    },
+    "epoch_seconds": 13.49
+  }
+]

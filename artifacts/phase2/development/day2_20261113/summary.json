@@ -1,0 +1,47 @@
+{
+  "status": "DEVELOPMENT_ONLY",
+  "test_examples_evaluated": 0,
+  "comparison": [
+    {
+      "model": "fine_tuned_weighted",
+      "seed": 42,
+      "selected_epoch": 4,
+      "development_edge_precision": 0.8130841121495327,
+      "development_edge_recall": 0.8656716417910447,
+      "development_edge_f1": 0.8385542168674699,
+      "development_macro_f1": 0.8875264476813163,
+      "elapsed_seconds": 205.47,
+      "trainable_parameters": 66957315
+    },
+    {
+      "model": "frozen_encoder_weighted",
+      "seed": 42,
+      "selected_epoch": 3,
+      "development_edge_precision": 0.37320574162679426,
+      "development_edge_recall": 0.3880597014925373,
+      "development_edge_f1": 0.38048780487804884,
+      "development_macro_f1": 0.47209321004387417,
+      "elapsed_seconds": 54.21,
+      "trainable_parameters": 592899
+    },
+    {
+      "model": "historical_tfidf_lr_C10",
+      "seed": 42,
+      "selected_epoch": null,
+      "development_edge_precision": 0.7525773195876289,
+      "development_edge_recall": 0.7263681592039801,
+      "development_edge_f1": 0.7392405063291139,
+      "development_macro_f1": 0.8130200860832137,
+      "elapsed_seconds": null,
+      "trainable_parameters": null
+    }
+  ],
+  "limitations": [
+    "One seed per neural variant so far",
+    "Historical ML and neural models have different tuning budgets",
+    "Same learning rate and epoch budget for both neural variants; frozen head may need different tuning",
+    "Development-selected scores are optimistic and do not replace final held-out testing",
+    "Training elapsed time includes checkpoint saving and is not an inference latency benchmark"
+  ],
+  "classical_reference": "artifacts/runs/phase1_extraction_verified_20261101/metrics.json"
+}
