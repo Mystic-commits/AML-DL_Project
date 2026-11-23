@@ -6,7 +6,7 @@ Classical machine learning for causal claim reasoning and directed relation extr
 
 ## Phase 2 development
 
-DistilBERT fine-tuning and a frozen-encoder control are complete for seed 42. Their **development** directed edge F1 scores are **0.839** and **0.380**, versus the historical TF-IDF/LR development score of **0.739** on the same split. Neural held-out test evaluation and hosted integration are pending. These development-selected scores do not establish a test-set improvement.
+DistilBERT fine-tuning and a frozen-encoder control are complete for seed 42. Their **development** directed edge F1 scores are **0.839** and **0.380**, versus the historical TF-IDF/LR development score of **0.739** on the same split. The hosted Neural lab and Walkthrough now connect DistilBERT candidates to review, graph validation and Bayesian fitting. Final held-out results are being evaluated. These development-selected scores do not establish a test-set improvement.
 
 See the [five-day plan, training commands and evaluation contract](docs/phase2.md) and [verified development results](artifacts/phase2/development/day2_20261113/summary.json). The Phase 1 results below remain the existing held-out baselines.
 
