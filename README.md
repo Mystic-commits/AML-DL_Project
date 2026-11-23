@@ -45,7 +45,7 @@ app.py                 Streamlit application entrypoint
 .streamlit/            Streamlit theme and server configuration
 src/                   Classifiers, extraction, graph validation and Bayesian logic
 scripts/               Dataset fetching, training, analysis and result verification
-notebooks/             Reproducible experiment walkthrough
+notebooks/             Executed Phase 1 and Phase 2 experiment walkthroughs
 tests/                 Unit and Streamlit interaction tests
 data/                  Demo examples, validation fixtures and source manifests
 artifacts/             Inference snapshots, measured results and evaluation evidence
@@ -84,7 +84,7 @@ The Bayesian teaching system uses 6,000 synthetic observations and a supplied ge
 .venv/bin/python -m scripts.verify_extraction_run artifacts/runs/phase1_extraction_verified_20261101 --portable
 ```
 
-Full training and analysis commands are in [experiment reproduction](docs/experiments.md). Dataset contracts and limitations are in [the data dictionary](docs/data_dictionary.md). Background sources are in [references](docs/literature_review.md).
+The executed [Phase 2 notebook](notebooks/phase2_experiments.ipynb) runs the released classifier, reconstructs final metrics and demonstrates the reviewed DAG/CPD/intervention workflow. Full training and analysis commands are in [experiment reproduction](docs/experiments.md). Dataset contracts and limitations are in [the data dictionary](docs/data_dictionary.md). Background sources are in [references](docs/literature_review.md).
 
 The [deployment notes](docs/deployment.md) describe hosting from `main` with entrypoint `app.py` on Python 3.12.
 

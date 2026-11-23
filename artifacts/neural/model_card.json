@@ -1,0 +1,98 @@
+{
+  "model": "DistilBERT directed relation classifier",
+  "task": "Given-entity three-class causal relation extraction",
+  "primary_selection": "Fixed before held-out evaluation; epoch selected by development edge F1",
+  "model_revision": "12040accade4e8a0f71eabdb258fecc2e7e948be",
+  "release": {
+    "format": 1,
+    "release_tag": "phase2-v1.1",
+    "archive_url": "https://github.com/Mystic-commits/AML-DL_Project/releases/download/phase2-v1.1/causal-distilbert-int8.zip",
+    "archive_sha256": "792573d9b4a6938df2d036f3c517b5af3ec46cc81fd88944e7751460ec327e41",
+    "archive_bytes": 114904488,
+    "model_bytes": 138868885,
+    "primary_seed": 42,
+    "primary_variant": "fine_tuned_weighted",
+    "upstream_revision": "12040accade4e8a0f71eabdb258fecc2e7e948be"
+  },
+  "test_rows": 2700,
+  "primary_metrics": {
+    "unweighted_cross_entropy": 0.17441870636962079,
+    "edge_precision": 0.857566765578635,
+    "edge_recall": 0.8837920489296636,
+    "edge_f1": 0.8704819277108434,
+    "macro_f1": 0.9100586551612672,
+    "tp": 289,
+    "fp": 48,
+    "fn": 38,
+    "confusion_matrix": [
+      [
+        2329,
+        14,
+        30
+      ],
+      [
+        12,
+        119,
+        3
+      ],
+      [
+        22,
+        1,
+        170
+      ]
+    ]
+  },
+  "deployed_metrics": {
+    "edge_precision": 0.8541666666666666,
+    "edge_recall": 0.8776758409785933,
+    "edge_f1": 0.865761689291101,
+    "macro_f1": 0.9052819571718942,
+    "tp": 287,
+    "fp": 49,
+    "fn": 40,
+    "confusion_matrix": [
+      [
+        2327,
+        15,
+        31
+      ],
+      [
+        16,
+        115,
+        3
+      ],
+      [
+        21,
+        0,
+        172
+      ]
+    ]
+  },
+  "seed_stability": {
+    "seeds": [
+      42,
+      17,
+      2026
+    ],
+    "edge_f1": [
+      0.8704819277108434,
+      0.875187969924812,
+      0.8733233979135618
+    ],
+    "mean": 0.8729977651830724,
+    "sample_sd": 0.002369859876931115
+  },
+  "training": "4 epochs, batch16, AdamW2e-5, weighted cross-entropy, development edge-F1 checkpoint selection",
+  "datasets": "SemEval-derived 6400/1600/2700 sentence-group split; entity names masked",
+  "limitations": [
+    "Given entity spans; automatic entity discovery not evaluated",
+    "Class scores uncalibrated; not causal probabilities",
+    "Unweighted ablation outperforms weighted primary in one seed",
+    "Frozen encoder control not independently tuned",
+    "Synthetic graph case is not real-world causal identification",
+    "No individual counterfactual claim"
+  ],
+  "intended_use": "Educational extraction proposals requiring human review; Bayesian CPDs estimated only from matching observations",
+  "evidence": "artifacts/phase2/final_evaluation/",
+  "license": "Base model Apache-2.0; dataset use remains subject to source terms"
+}
