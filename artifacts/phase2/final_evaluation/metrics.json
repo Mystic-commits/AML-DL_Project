@@ -1,0 +1,610 @@
+{
+  "status": "HELD_OUT_EVALUATED",
+  "protocol": {
+    "primary_variant": "fine_tuned_weighted",
+    "primary_seed": 42,
+    "primary_selection": "Fixed before held-out evaluation; epoch selected by development edge F1",
+    "replication_seeds": [
+      17,
+      2026
+    ],
+    "ablations": [
+      "frozen_encoder_weighted",
+      "fine_tuned_unweighted"
+    ],
+    "bootstrap_resamples": 1000,
+    "bootstrap_seed": 42,
+    "bootstrap_unit": "normalized sentence group",
+    "paired_comparison": "primary neural minus frozen historical TF-IDF/LR on aligned test rows",
+    "deployment_variant": "primary_seed42_dynamic_INT8_ONNX",
+    "deployment_selection": "Quantization fixed before test inspection; report its metrics separately",
+    "no_test_threshold_tuning": true,
+    "no_seed_selection_using_test": true,
+    "graph_scope": "Controlled synthetic rain/sprinkler case study, not independently annotated real-world discovery"
+  },
+  "test_rows": 2700,
+  "test_groups": 2698,
+  "test_sha256": "c1dd19d836a55ec3111e3761e59fa0a280a9c23e74ef16f108ac0301c8ff35f0",
+  "reference_partitions_sha256": "ef35accab95ba30d9e4431709dd98cb73640850716b94c007370cd0587eebe69",
+  "test": {
+    "majority": {
+      "edge_precision": 0.0,
+      "edge_recall": 0.0,
+      "edge_f1": 0.0,
+      "macro_f1": 0.3118470333136211,
+      "tp": 0,
+      "fp": 0,
+      "fn": 327,
+      "confusion_matrix": [
+        [
+          2373,
+          0,
+          0
+        ],
+        [
+          134,
+          0,
+          0
+        ],
+        [
+          193,
+          0,
+          0
+        ]
+      ]
+    },
+    "lexical": {
+      "edge_precision": 0.8470588235294118,
+      "edge_recall": 0.6605504587155964,
+      "edge_f1": 0.7422680412371134,
+      "macro_f1": 0.821554785358405,
+      "tp": 216,
+      "fp": 39,
+      "fn": 111,
+      "confusion_matrix": [
+        [
+          2345,
+          21,
+          7
+        ],
+        [
+          22,
+          110,
+          2
+        ],
+        [
+          78,
+          9,
+          106
+        ]
+      ]
+    },
+    "tfidf_lr": {
+      "edge_precision": 0.8195718654434251,
+      "edge_recall": 0.8195718654434251,
+      "edge_f1": 0.8195718654434251,
+      "macro_f1": 0.8756579511720425,
+      "tp": 268,
+      "fp": 59,
+      "fn": 59,
+      "confusion_matrix": [
+        [
+          2319,
+          8,
+          46
+        ],
+        [
+          25,
+          105,
+          4
+        ],
+        [
+          29,
+          1,
+          163
+        ]
+      ]
+    },
+    "entity_only_ablation": {
+      "edge_precision": 0.5324232081911263,
+      "edge_recall": 0.47706422018348627,
+      "edge_f1": 0.5032258064516129,
+      "macro_f1": 0.6440629994054623,
+      "tp": 156,
+      "fp": 137,
+      "fn": 171,
+      "confusion_matrix": [
+        [
+          2313,
+          21,
+          39
+        ],
+        [
+          39,
+          46,
+          49
+        ],
+        [
+          55,
+          28,
+          110
+        ]
+      ]
+    },
+    "fine_tuned_weighted_seed42": {
+      "unweighted_cross_entropy": 0.17441870636962079,
+      "edge_precision": 0.857566765578635,
+      "edge_recall": 0.8837920489296636,
+      "edge_f1": 0.8704819277108434,
+      "macro_f1": 0.9100586551612672,
+      "tp": 289,
+      "fp": 48,
+      "fn": 38,
+      "confusion_matrix": [
+        [
+          2329,
+          14,
+          30
+        ],
+        [
+          12,
+          119,
+          3
+        ],
+        [
+          22,
+          1,
+          170
+        ]
+      ]
+    },
+    "fine_tuned_weighted_seed17": {
+      "unweighted_cross_entropy": 0.13897555222665822,
+      "edge_precision": 0.8609467455621301,
+      "edge_recall": 0.8899082568807339,
+      "edge_f1": 0.875187969924812,
+      "macro_f1": 0.9121101696064585,
+      "tp": 291,
+      "fp": 47,
+      "fn": 36,
+      "confusion_matrix": [
+        [
+          2332,
+          17,
+          24
+        ],
+        [
+          10,
+          119,
+          5
+        ],
+        [
+          20,
+          1,
+          172
+        ]
+      ]
+    },
+    "fine_tuned_weighted_seed2026": {
+      "unweighted_cross_entropy": 0.13659246718441997,
+      "edge_precision": 0.8517441860465116,
+      "edge_recall": 0.8960244648318043,
+      "edge_f1": 0.8733233979135618,
+      "macro_f1": 0.9133883921351527,
+      "tp": 293,
+      "fp": 51,
+      "fn": 34,
+      "confusion_matrix": [
+        [
+          2326,
+          9,
+          38
+        ],
+        [
+          13,
+          117,
+          4
+        ],
+        [
+          17,
+          0,
+          176
+        ]
+      ]
+    },
+    "frozen_encoder_weighted_seed42": {
+      "unweighted_cross_entropy": 0.6112885476924755,
+      "edge_precision": 0.2896174863387978,
+      "edge_recall": 0.3241590214067278,
+      "edge_f1": 0.3059163059163059,
+      "macro_f1": 0.43795216915552443,
+      "tp": 106,
+      "fp": 260,
+      "fn": 221,
+      "confusion_matrix": [
+        [
+          2198,
+          1,
+          174
+        ],
+        [
+          49,
+          0,
+          85
+        ],
+        [
+          87,
+          0,
+          106
+        ]
+      ]
+    },
+    "fine_tuned_unweighted_seed42": {
+      "unweighted_cross_entropy": 0.11548682248357821,
+      "edge_precision": 0.9015384615384615,
+      "edge_recall": 0.8960244648318043,
+      "edge_f1": 0.8987730061349692,
+      "macro_f1": 0.9288287928190275,
+      "tp": 293,
+      "fp": 32,
+      "fn": 34,
+      "confusion_matrix": [
+        [
+          2343,
+          10,
+          20
+        ],
+        [
+          13,
+          119,
+          2
+        ],
+        [
+          19,
+          0,
+          174
+        ]
+      ]
+    },
+    "deployed_int8": {
+      "edge_precision": 0.8541666666666666,
+      "edge_recall": 0.8776758409785933,
+      "edge_f1": 0.865761689291101,
+      "macro_f1": 0.9052819571718942,
+      "tp": 287,
+      "fp": 49,
+      "fn": 40,
+      "confusion_matrix": [
+        [
+          2327,
+          15,
+          31
+        ],
+        [
+          16,
+          115,
+          3
+        ],
+        [
+          21,
+          0,
+          172
+        ]
+      ]
+    }
+  },
+  "selected_checkpoints": {
+    "fine_tuned_weighted_seed42": {
+      "selected_epoch": 4,
+      "development_edge_f1": 0.8385542168674699,
+      "checkpoint_sha256": "543958584eb2666344da9aab4caa4a46dbd7b7758c274053d74e964094e198c8",
+      "seed": 42,
+      "variant": "fine_tuned_weighted"
+    },
+    "fine_tuned_weighted_seed17": {
+      "selected_epoch": 2,
+      "development_edge_f1": 0.8284313725490197,
+      "checkpoint_sha256": "7dfa4abbcbd427896ddceeb01007b76552afb756a274f3d7c350a5102e5d4788",
+      "seed": 17,
+      "variant": "fine_tuned_weighted"
+    },
+    "fine_tuned_weighted_seed2026": {
+      "selected_epoch": 2,
+      "development_edge_f1": 0.8260869565217391,
+      "checkpoint_sha256": "ec1c61253bb283f61852bc878a4b9ca4699b0e86cbe6533d05548e60af373e29",
+      "seed": 2026,
+      "variant": "fine_tuned_weighted"
+    },
+    "frozen_encoder_weighted_seed42": {
+      "selected_epoch": 3,
+      "development_edge_f1": 0.38048780487804884,
+      "checkpoint_sha256": "5349c6292319498fcde7a22af876fd22061545ee79a18fea9109b8e93f115de5",
+      "seed": 42,
+      "variant": "frozen_encoder_weighted"
+    },
+    "fine_tuned_unweighted_seed42": {
+      "selected_epoch": 3,
+      "development_edge_f1": 0.8255528255528256,
+      "checkpoint_sha256": "4cf259bd5fa285b8d24139a48992135cdf8741fea333916c2b56eb720cb2fcfa",
+      "seed": 42,
+      "variant": "fine_tuned_unweighted"
+    }
+  },
+  "primary_edge_f1_bootstrap_95ci": [
+    0.8421012637977923,
+    0.8973670789238811
+  ],
+  "primary_minus_ml_edge_f1": 0.05091006226741834,
+  "paired_delta_bootstrap_95ci": [
+    0.0233657088337852,
+    0.0792155203713052
+  ],
+  "deployed_edge_f1_bootstrap_95ci": [
+    0.8362341107259166,
+    0.8928571428571429
+  ],
+  "seed_stability": {
+    "seeds": [
+      42,
+      17,
+      2026
+    ],
+    "edge_f1": [
+      0.8704819277108434,
+      0.875187969924812,
+      0.8733233979135618
+    ],
+    "mean": 0.8729977651830724,
+    "sample_sd": 0.002369859876931115
+  },
+  "quantized_disagreement_count": 16,
+  "deployment": {
+    "model_bytes": 138868885,
+    "median_single_sentence_ms": 5.231021001236513,
+    "latency_scope": "Local CPU, two ONNX threads, 20 sequential warm single-sentence probes; not cloud benchmark"
+  },
+  "controlled_graph_case": {
+    "scope": "Single controlled synthetic case; not a real-world graph benchmark",
+    "review": "Scripted known-generator review for evaluation, not a claim of independent human annotation",
+    "raw_candidates": [
+      {
+        "cause": "rain",
+        "effect": "sprinkler",
+        "sentence": "<e1>Rain</e1> causes <e2>sprinkler</e2>.",
+        "document_id": "controlled_synthetic_case",
+        "sentence_id": 1,
+        "method": "DistilBERT dynamic INT8 ONNX",
+        "model_label": 1,
+        "uncalibrated_score": 0.99957307665813
+      },
+      {
+        "cause": "rain",
+        "effect": "wet_grass",
+        "sentence": "<e1>Rain</e1> causes <e2>wet grass</e2>.",
+        "document_id": "controlled_synthetic_case",
+        "sentence_id": 2,
+        "method": "DistilBERT dynamic INT8 ONNX",
+        "model_label": 1,
+        "uncalibrated_score": 0.99957307665813
+      },
+      {
+        "cause": "sprinkler",
+        "effect": "wet_grass",
+        "sentence": "<e1>Sprinkler</e1> causes <e2>wet grass</e2>.",
+        "document_id": "controlled_synthetic_case",
+        "sentence_id": 3,
+        "method": "DistilBERT dynamic INT8 ONNX",
+        "model_label": 1,
+        "uncalibrated_score": 0.99957307665813
+      },
+      {
+        "cause": "wet_grass",
+        "effect": "rain",
+        "sentence": "<e1>Wet grass</e1> causes <e2>rain</e2>.",
+        "document_id": "controlled_synthetic_case",
+        "sentence_id": 4,
+        "method": "DistilBERT dynamic INT8 ONNX",
+        "model_label": 1,
+        "uncalibrated_score": 0.99957307665813
+      }
+    ],
+    "accepted": [
+      {
+        "cause": "rain",
+        "effect": "sprinkler",
+        "sentence": "<e1>Rain</e1> causes <e2>sprinkler</e2>.",
+        "document_id": "controlled_synthetic_case",
+        "sentence_id": 1,
+        "method": "DistilBERT dynamic INT8 ONNX",
+        "model_label": 1,
+        "uncalibrated_score": 0.99957307665813
+      },
+      {
+        "cause": "rain",
+        "effect": "wet_grass",
+        "sentence": "<e1>Rain</e1> causes <e2>wet grass</e2>.",
+        "document_id": "controlled_synthetic_case",
+        "sentence_id": 2,
+        "method": "DistilBERT dynamic INT8 ONNX",
+        "model_label": 1,
+        "uncalibrated_score": 0.99957307665813
+      },
+      {
+        "cause": "sprinkler",
+        "effect": "wet_grass",
+        "sentence": "<e1>Sprinkler</e1> causes <e2>wet grass</e2>.",
+        "document_id": "controlled_synthetic_case",
+        "sentence_id": 3,
+        "method": "DistilBERT dynamic INT8 ONNX",
+        "model_label": 1,
+        "uncalibrated_score": 0.99957307665813
+      }
+    ],
+    "rejected": [
+      {
+        "cause": "wet_grass",
+        "effect": "rain",
+        "sentence": "<e1>Wet grass</e1> causes <e2>rain</e2>.",
+        "document_id": "controlled_synthetic_case",
+        "sentence_id": 4,
+        "method": "DistilBERT dynamic INT8 ONNX",
+        "model_label": 1,
+        "uncalibrated_score": 0.99957307665813,
+        "reason": "would create a cycle"
+      }
+    ],
+    "raw_edge_metrics": {
+      "precision": 0.75,
+      "recall": 1.0,
+      "f1": 0.8571428571428571
+    },
+    "validated_edge_metrics": {
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0
+    },
+    "raw_acyclic": false,
+    "validated_acyclic": true,
+    "queries": [
+      {
+        "sprinkler": 0,
+        "observed": 0.4523668200029678,
+        "intervened": 0.2747700163468629,
+        "oracle": 0.28400000000000003
+      },
+      {
+        "sprinkler": 1,
+        "observed": 0.801081388730791,
+        "intervened": 0.8464888589838538,
+        "oracle": 0.857
+      }
+    ],
+    "maximum_oracle_error": 0.010511141016146142,
+    "network_audit": {
+      "accepted": [
+        {
+          "cause": "rain",
+          "effect": "sprinkler",
+          "sentence": "<e1>Rain</e1> causes <e2>sprinkler</e2>.",
+          "document_id": "controlled_synthetic_case",
+          "sentence_id": 1,
+          "method": "DistilBERT dynamic INT8 ONNX",
+          "model_label": 1,
+          "uncalibrated_score": 0.99957307665813,
+          "approved": true
+        },
+        {
+          "cause": "rain",
+          "effect": "wet_grass",
+          "sentence": "<e1>Rain</e1> causes <e2>wet grass</e2>.",
+          "document_id": "controlled_synthetic_case",
+          "sentence_id": 2,
+          "method": "DistilBERT dynamic INT8 ONNX",
+          "model_label": 1,
+          "uncalibrated_score": 0.99957307665813,
+          "approved": true
+        },
+        {
+          "cause": "sprinkler",
+          "effect": "wet_grass",
+          "sentence": "<e1>Sprinkler</e1> causes <e2>wet grass</e2>.",
+          "document_id": "controlled_synthetic_case",
+          "sentence_id": 3,
+          "method": "DistilBERT dynamic INT8 ONNX",
+          "model_label": 1,
+          "uncalibrated_score": 0.99957307665813,
+          "approved": true
+        }
+      ],
+      "rejected": [],
+      "assumptions": {
+        "reviewed_by": "Scripted known-generator reviewer",
+        "causal_rationale": "Known synthetic generating graph; evaluation case only",
+        "observed_confounders": true,
+        "stable_mechanisms": true
+      },
+      "rows": 6000,
+      "edges": [
+        [
+          "rain",
+          "sprinkler"
+        ],
+        [
+          "rain",
+          "wet_grass"
+        ],
+        [
+          "sprinkler",
+          "wet_grass"
+        ]
+      ],
+      "acyclic": true,
+      "prior": "BDeu",
+      "equivalent_sample_size": 5,
+      "cpds": {
+        "rain": {
+          "variables": [
+            "rain"
+          ],
+          "values": [
+            0.7073272273105745,
+            0.2926727726894255
+          ]
+        },
+        "sprinkler": {
+          "variables": [
+            "sprinkler",
+            "rain"
+          ],
+          "values": [
+            [
+              0.4005297233666863,
+              0.9492176386913229
+            ],
+            [
+              0.5994702766333138,
+              0.050782361308677096
+            ]
+          ]
+        },
+        "wet_grass": {
+          "variables": [
+            "wet_grass",
+            "rain",
+            "sprinkler"
+          ],
+          "values": [
+            [
+              [
+                0.9819985304922851,
+                0.204860088365243
+              ],
+              [
+                0.1046755582196913,
+                0.029411764705882353
+              ]
+            ],
+            [
+              [
+                0.018001469507714914,
+                0.795139911634757
+              ],
+              [
+                0.8953244417803087,
+                0.9705882352941176
+              ]
+            ]
+          ]
+        }
+      }
+    }
+  },
+  "uncertainty_scope": "Sentence-group bootstrap conditional on fitted model; no document IDs. Seed SD is separate.",
+  "limitations": [
+    "Given entity spans",
+    "Derived three-class task, not official 19-class SemEval metric",
+    "No real-domain causal identification",
+    "Scores are uncalibrated",
+    "Controlled graph case does not establish external graph accuracy"
+  ]
+}

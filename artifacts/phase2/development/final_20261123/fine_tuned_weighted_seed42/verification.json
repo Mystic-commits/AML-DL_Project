@@ -1,0 +1,16 @@
+{
+  "status": "PASS",
+  "mode": "full_development_audit",
+  "variant": "fine_tuned_weighted",
+  "selected_epoch": 4,
+  "development_edge_f1": 0.8385542168674699,
+  "test_examples_evaluated": 0,
+  "checks": [
+    "available hashes",
+    "development split alignment",
+    "selected epoch",
+    "saved probabilities",
+    "recomputed directed metrics",
+    "checkpoint reload receipt"
+  ]
+}

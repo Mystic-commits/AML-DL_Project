@@ -1,0 +1,16 @@
+{
+  "status": "PASS",
+  "mode": "full_development_audit",
+  "variant": "frozen_encoder_weighted",
+  "selected_epoch": 3,
+  "development_edge_f1": 0.38048780487804884,
+  "test_examples_evaluated": 0,
+  "checks": [
+    "available hashes",
+    "development split alignment",
+    "selected epoch",
+    "saved probabilities",
+    "recomputed directed metrics",
+    "checkpoint reload receipt"
+  ]
+}

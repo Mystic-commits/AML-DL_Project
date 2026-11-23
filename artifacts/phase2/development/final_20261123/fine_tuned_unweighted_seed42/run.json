@@ -1,0 +1,243 @@
+{
+  "status": "TRAINED_DEVELOPMENT_ONLY",
+  "variant": "fine_tuned_unweighted",
+  "seed": 42,
+  "selected_epoch": 3,
+  "history": [
+    {
+      "epoch": 1,
+      "mean_training_batch_loss": 0.2926412722025998,
+      "dev": {
+        "unweighted_cross_entropy": 0.19066865096800029,
+        "edge_precision": 0.7363636363636363,
+        "edge_recall": 0.8059701492537313,
+        "edge_f1": 0.7695961995249405,
+        "macro_f1": 0.8361387824161909,
+        "tp": 162,
+        "fp": 58,
+        "fn": 39,
+        "confusion_matrix": [
+          [
+            1346,
+            4,
+            49
+          ],
+          [
+            19,
+            47,
+            3
+          ],
+          [
+            15,
+            2,
+            115
+          ]
+        ]
+      },
+      "epoch_seconds": 55.12
+    },
+    {
+      "epoch": 2,
+      "mean_training_batch_loss": 0.142929055087734,
+      "dev": {
+        "unweighted_cross_entropy": 0.17142358760349452,
+        "edge_precision": 0.8118811881188119,
+        "edge_recall": 0.8159203980099502,
+        "edge_f1": 0.813895781637717,
+        "macro_f1": 0.8651715124032938,
+        "tp": 164,
+        "fp": 38,
+        "fn": 37,
+        "confusion_matrix": [
+          [
+            1366,
+            12,
+            21
+          ],
+          [
+            12,
+            56,
+            1
+          ],
+          [
+            20,
+            4,
+            108
+          ]
+        ]
+      },
+      "epoch_seconds": 52.67
+    },
+    {
+      "epoch": 3,
+      "mean_training_batch_loss": 0.10649658021808137,
+      "dev": {
+        "unweighted_cross_entropy": 0.18760062866611407,
+        "edge_precision": 0.8155339805825242,
+        "edge_recall": 0.835820895522388,
+        "edge_f1": 0.8255528255528256,
+        "macro_f1": 0.874666753463746,
+        "tp": 168,
+        "fp": 38,
+        "fn": 33,
+        "confusion_matrix": [
+          [
+            1364,
+            7,
+            28
+          ],
+          [
+            14,
+            54,
+            1
+          ],
+          [
+            16,
+            2,
+            114
+          ]
+        ]
+      },
+      "epoch_seconds": 52.28
+    },
+    {
+      "epoch": 4,
+      "mean_training_batch_loss": 0.06783614486368605,
+      "dev": {
+        "unweighted_cross_entropy": 0.21820038514968473,
+        "edge_precision": 0.8333333333333334,
+        "edge_recall": 0.7960199004975125,
+        "edge_f1": 0.8142493638676845,
+        "macro_f1": 0.8655704573438755,
+        "tp": 160,
+        "fp": 32,
+        "fn": 41,
+        "confusion_matrix": [
+          [
+            1369,
+            8,
+            22
+          ],
+          [
+            16,
+            52,
+            1
+          ],
+          [
+            23,
+            1,
+            108
+          ]
+        ]
+      },
+      "epoch_seconds": 54.18
+    }
+  ],
+  "parameter_counts": {
+    "encoder_frozen": false,
+    "weighted_loss": false,
+    "total_parameters": 66957315,
+    "trainable_parameters": 66957315
+  },
+  "training_class_weights": null,
+  "elapsed_seconds": 214.92,
+  "test_examples_evaluated": 0,
+  "loss_note": "Training is mean batch loss; development CE is unweighted per-example loss.",
+  "frozen_encoder_note": "Frozen encoder remains in eval mode; classification head is trained.",
+  "config": {
+    "schema_version": 1,
+    "task": "given_entity_directed_causal_relation_classification",
+    "model_id": "distilbert/distilbert-base-uncased",
+    "model_revision": "12040accade4e8a0f71eabdb258fecc2e7e948be",
+    "use_safetensors": true,
+    "trust_remote_code": false,
+    "labels": {
+      "0": "no_causal_relation",
+      "1": "e1_causes_e2",
+      "2": "e2_causes_e1"
+    },
+    "input_representation": "masked_entities_with_E1_E2_special_tokens",
+    "entity_markers": [
+      "[E1]",
+      "[E2]"
+    ],
+    "max_length": 128,
+    "batch_size": 16,
+    "epochs": 4,
+    "learning_rate": 2e-05,
+    "weight_decay": 0.01,
+    "dropout": 0.2,
+    "max_grad_norm": 1.0,
+    "loss": "training_only_balanced_cross_entropy",
+    "selection_metric": "development_directed_edge_f1",
+    "seeds": [
+      42,
+      17,
+      2026
+    ],
+    "reference_run": "artifacts/runs/phase1_extraction_verified_20261101",
+    "ablation_variants": [
+      "fine_tuned_weighted",
+      "frozen_encoder_weighted",
+      "fine_tuned_unweighted"
+    ],
+    "status": "protocol_only_not_a_trained_model"
+  },
+  "training_device": "mps",
+  "selected_development_metrics": {
+    "unweighted_cross_entropy": 0.18760063199093566,
+    "edge_precision": 0.8155339805825242,
+    "edge_recall": 0.835820895522388,
+    "edge_f1": 0.8255528255528256,
+    "macro_f1": 0.874666753463746,
+    "tp": 168,
+    "fp": 38,
+    "fn": 33,
+    "confusion_matrix": [
+      [
+        1364,
+        7,
+        28
+      ],
+      [
+        14,
+        54,
+        1
+      ],
+      [
+        16,
+        2,
+        114
+      ]
+    ]
+  },
+  "selected_checkpoint_reload_max_abs_error": 3.814697265625e-06,
+  "source_hashes": {
+    "src/neural.py": "1551dad01ada2fd78357aebb1aa092b75c01d450f326d69d23266da39dfbb266",
+    "src/neural_training.py": "67bf43e040c9fa56d3126be6ef63c107801718f6fd13e99d8c575b0afb505ba9",
+    "scripts/train_neural.py": "f1f3a22e97c54b159438469563d618f6a22228edce74c8ed642b03f65687427a",
+    "configs/phase2_extraction.json": "f69c0d11fe37b397fde830f104525da2ee6cdb60dee8d86162291b1907567ddd"
+  },
+  "input_hashes": {
+    "train.csv": "678377cfd6864242c86b3b0febf2ba51c82963932381e27ca211364b05b58fe2",
+    "dev.csv": "f585772662500b74b14e381f8a86e97f2a1fb430a68f3eb101efb0620a87b425"
+  },
+  "reference_partition_sha256": "ef35accab95ba30d9e4431709dd98cb73640850716b94c007370cd0587eebe69",
+  "git_commit": "85da444126a90778de55b2cc6779d20196570f1f",
+  "environment": {
+    "python": "3.12.14 (main, Aug 25 2026, 13:50:33) [Clang 22.1.3 ]",
+    "platform": "macOS-26.7.3-arm64-arm-64bit",
+    "packages": {
+      "torch": "2.15.0",
+      "transformers": "5.22.1",
+      "numpy": "2.5.4",
+      "pandas": "3.1.0",
+      "scikit-learn": "1.9.1"
+    }
+  },
+  "limitations": [
+    "One seed in this run",
+    "Development-selected performance is not a held-out test result",
+    "Given entity spans and sentence-level split groups"
+  ]
+}
