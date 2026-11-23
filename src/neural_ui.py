@@ -117,7 +117,7 @@ def render_hybrid_walkthrough():
     value=st.radio('Choose a sprinkler setting',[0,1],format_func=lambda x:'OFF (0)' if x==0 else 'ON (1)',horizontal=True,key='hybrid_state')
     observed=query(variable='sprinkler',value=value,network=network)
     intervened=query(variable='sprinkler',value=value,intervention=True,network=network)
-    a,b,c=st.columns(3);a.metric('When we see this setting',f'{observed:.3f}');b.metric('When we force this setting',f'{intervened:.3f}');c.metric('Known answer for forcing it',f'{oracle(value):.3f}')
+    a,b,c=st.columns(3);a.metric('Observed',f'{observed:.3f}');b.metric('Forced (do)',f'{intervened:.3f}');c.metric('Known answer',f'{oracle(value):.3f}')
     setting='on' if value else 'off'
     st.write(f'**Watching:** among records where the sprinkler happened to be {setting}, how often was the grass wet? Rain influences both variables.')
     st.write(f'**Taking action:** force the sprinkler {setting}. Rain no longer chooses its setting, but rain can still wet the grass. The model estimates a {intervened*100:.1f}% chance of wet grass.')
