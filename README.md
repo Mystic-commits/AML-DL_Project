@@ -6,11 +6,13 @@ Fine-tuned DistilBERT for directed relation extraction, connected to reviewed gr
 
 ## Phase 2 results
 
-The predeclared primary DistilBERT achieves **test directed edge F1 0.870**, compared with **0.820** for TF-IDF/Logistic Regression on the same 2,700 held-out pairs. The primary improvement is **5.09 F1 points** (paired sentence-group bootstrap 95% interval +2.34 to +7.92 points). Three weighted seeds score 0.870/0.875/0.873: mean 0.873, sample SD 0.0024.
+The predeclared primary DistilBERT model achieves a **test directed edge F1 score of 0.870**, compared with **0.820** for TF-IDF/Logistic Regression, evaluated on the same 2,700 held-out pairs. This corresponds to an improvement of **5.09 F1 points**, with a paired sentence-group bootstrap 95% confidence interval of **+2.34 to +7.92 points**. Across three weighted random seeds, the model achieves scores of **0.870, 0.875, and 0.873**, yielding a mean F1 of **0.873** and a sample standard deviation of **0.0024**.
 
-The unweighted seed-42 ablation scores **0.899**, outperforming the weighted primary; the frozen-encoder control scores **0.306** under the same budget without its own learning-rate tuning. These negative ablation findings are reported rather than hidden or used to select a primary after testing. The portable hosted 8-bit model scores **0.866**.
+The unweighted seed-42 ablation achieves an F1 score of **0.899**, exceeding the weighted primary model. The frozen-encoder control achieves an F1 score of **0.306** under the same computational budget, without independent learning-rate tuning. These ablation results, including the negative findings, are reported transparently and were not used to retrospectively select the primary model following test-set evaluation. The portable hosted 8-bit model achieves an F1 score of **0.866**.
 
-**Start in Walkthrough:** DistilBERT proposes relations → review → DAG checks → Bayesian fitting from matching observations → observation versus intervention. The graph case is controlled and synthetic, not evidence of automatic real-world causal discovery. Given entity spans are a task assumption.
+**Walkthrough workflow:** DistilBERT proposes candidate relations → human review → directed acyclic graph (DAG) validation → Bayesian parameter fitting using matching observations → distinction between observational and interventional reasoning.
+
+The graph evaluation is conducted in a controlled synthetic setting and should not be interpreted as evidence of automated causal discovery in real-world environments. The availability of entity spans is assumed as part of the task specification.
 
 [Final predictions and measured results](artifacts/phase2/final_evaluation/) · [Architecture, training and evaluation](docs/phase2.md) · [Published model release](https://github.com/Mystic-commits/AML-DL_Project/releases/tag/phase2-v1.1)
 
