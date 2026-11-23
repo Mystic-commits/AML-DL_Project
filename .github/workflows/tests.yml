@@ -14,3 +14,4 @@ jobs:
       - run: python -m scripts.verify_extraction_run artifacts/runs/phase1_extraction_verified_20261101 --portable
       - run: python -m scripts.verify_neural_run artifacts/phase2/development/day2_20261113/fine_tuned_weighted_seed42 --portable
       - run: python -m scripts.verify_neural_run artifacts/phase2/development/day2_20261113/frozen_encoder_weighted_seed42 --portable
+      - run: python -m scripts.verify_final_results artifacts/phase2/final_evaluation

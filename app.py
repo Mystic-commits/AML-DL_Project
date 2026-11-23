@@ -133,20 +133,18 @@ elif page == "Overview":
     st.image(str(ROOT / "assets/research-hands.png"), use_container_width=True)
     st.markdown('<div class="rule"></div>', unsafe_allow_html=True)
 
-    macro_f1 = selected_test["macro_f1"]
-    train_n = metrics_data["audit"]["train"]["retained"]
-    test_n = metrics_data["audit"]["test"]["retained"]
-
-    # stat cards using html grid
+    final = json.loads((ROOT / "artifacts/phase2/final_evaluation/metrics.json").read_text())
+    primary = final["test"]["fine_tuned_weighted_seed42"]["edge_f1"]
+    deployed = final["test"]["deployed_int8"]["edge_f1"]
     st.markdown(
         f"""<div class="stat-grid">
-        <div class="stat"><small>TRAINING EXAMPLES</small><strong>{train_n:,}</strong></div>
-        <div class="stat"><small>HELD-OUT EXAMPLES</small><strong>{test_n:,}</strong></div>
-        <div class="stat"><small>TEST MACRO F1</small><strong>{macro_f1:.3f}</strong></div>
-        <div class="stat"><small>RESEARCH SCOPE</small><strong>Neural + Bayesian</strong></div>
-        </div>""",
-        unsafe_allow_html=True,
+        <div class="stat"><small>EXTRACTION TRAINING PAIRS</small><strong>6,400</strong></div>
+        <div class="stat"><small>HELD-OUT EXTRACTION PAIRS</small><strong>2,700</strong></div>
+        <div class="stat"><small>PRIMARY TEST EDGE F1</small><strong>{primary:.3f}</strong></div>
+        <div class="stat"><small>DEPLOYED TEST EDGE F1</small><strong>{deployed:.3f}</strong></div>
+        </div>""", unsafe_allow_html=True,
     )
+    st.caption("SemEval-derived given-entity extraction. Primary: full-precision, weighted seed 42. Hosted model: the same checkpoint with portable 8-bit quantization. Corr2Cause claim reasoning is a separate retained classical task.")
 
     st.write("")  # spacer
 
@@ -437,6 +435,12 @@ elif page == "Intervention lab":
 
 elif page == "Evaluation":
     st.title("Evidence over impressions.")
+
+    from src.neural_ui import render_final_results
+    render_final_results()
+    st.divider()
+    st.subheader("Retained Phase 1: Corr2Cause claim reasoning")
+    st.caption("A separate binary entailment task. These scores are not neural extraction results.")
 
     # build model comparison table
     rows = []

@@ -125,3 +125,26 @@ def render_hybrid_walkthrough():
     with st.expander('Show learned probability tables and audit'):
         for cpd in network.get_cpds(): st.code(str(cpd),language=None)
         st.download_button('Download reviewed network audit',json.dumps(audit,indent=2),'hybrid_network_audit.json','application/json')
+
+
+def render_final_results():
+    """Read immutable experiment evidence; never trigger training from the interface."""
+    report = json.loads((ROOT/'artifacts/phase2/final_evaluation/metrics.json').read_text())
+    st.subheader('Phase 2: held-out directed extraction')
+    names = {'lexical':'Lexical rules', 'tfidf_lr':'TF-IDF + Logistic Regression',
+        'fine_tuned_weighted_seed42':'DistilBERT weighted — primary',
+        'frozen_encoder_weighted_seed42':'Frozen encoder + trained head',
+        'fine_tuned_unweighted_seed42':'DistilBERT unweighted — ablation',
+        'deployed_int8':'Hosted 8-bit model'}
+    rows = [{'Model': label, **{k:report['test'][key][k] for k in ['edge_precision','edge_recall','edge_f1','macro_f1']}} for key,label in names.items()]
+    st.dataframe(pd.DataFrame(rows).set_index('Model').style.format('{:.3f}'), use_container_width=True)
+    low,high = report['primary_edge_f1_bootstrap_95ci']
+    stability = report['seed_stability']
+    st.caption(f"Same 2,700 held-out pairs and supplied entity spans. Primary seed 42 was fixed before testing; development F1 chose its epoch. Primary edge-F1 95% sentence-group bootstrap interval: {low:.3f}–{high:.3f} (1,000 resamples).")
+    st.info(f"Class weighting did not help in this seed-42 comparison: the unweighted ablation scored 0.899. It is reported separately rather than selected using test scores. Three weighted seeds: mean {stability['mean']:.3f}, sample SD {stability['sample_sd']:.4f}. The frozen control was not separately tuned.")
+    with st.expander('Training curves, replication seeds and audit'):
+        st.image(str(ROOT/'artifacts/phase2/development/final_20261123/learning_curves.png'))
+        seed_rows = [{'Seed': seed, 'Test edge F1':report['test'][f'fine_tuned_weighted_seed{seed}']['edge_f1']} for seed in [42,17,2026]]
+        st.dataframe(pd.DataFrame(seed_rows), hide_index=True)
+        st.write('The graph walkthrough is a single controlled synthetic case, not a held-out real-world causal graph benchmark. Neural confidence is uncalibrated. Bayesian tables use observations, not classifier scores.')
+        st.download_button('Download final evaluation evidence',json.dumps(report,indent=2),'phase2_final_metrics.json','application/json')
