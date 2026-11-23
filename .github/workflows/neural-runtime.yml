@@ -1,0 +1,33 @@
+name: Published neural runtime
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - 'artifacts/neural/release.json'
+      - 'src/neural_runtime.py'
+      - '.github/workflows/neural-runtime.yml'
+jobs:
+  public-bundle-linux:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: pip
+      - run: python -m pip install -r requirements.txt
+      - name: Verify public release, Linux CPU inference and known teaching directions
+        run: |
+          python - <<'PY'
+          import json
+          from src.neural_runtime import OnnxExtractor, ensure_bundle
+          manifest=json.load(open('artifacts/neural/release.json'))
+          model=OnnxExtractor(ensure_bundle(manifest))
+          examples=['<e1>Heat</e1> causes <e2>evaporation</e2>.',
+                    '<e1>Flooding</e1> is caused by <e2>rain</e2>.',
+                    '<e1>Water</e1> is in the <e2>glass</e2>.']
+          print(model.predict_proba(examples))
+          assert model.predict(examples).tolist()==[1,2,0]
+          assert model.predict(examples[:1]).tolist()==[1]
+          PY

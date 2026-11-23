@@ -31,3 +31,6 @@ artifacts/phase2/runs/
 *.onnx
 *.pt
 *.pth
+
+# Local submission build directories are outside the repository.
+artifacts/phase2/final_evaluation/*.npy
