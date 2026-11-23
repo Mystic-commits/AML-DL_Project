@@ -5,3 +5,7 @@ transformers==5.22.1
 safetensors==0.8.0
 huggingface-hub==2.4.0
 tokenizers==0.23.3
+
+# Export only
+onnx==1.23.2
+onnxscript==0.7.2

@@ -9,3 +9,7 @@ nbclient>=0.10,<1
 pytest>=8,<10
 ipykernel>=7,<8
 pyarrow>=18,<25
+
+# Lightweight neural inference; training dependencies remain in requirements-dl.txt.
+onnxruntime==1.32.0
+tokenizers==0.23.3

@@ -1,9 +1,9 @@
 """
-Causal Workbench — Phase 1 Streamlit Application
+Causal Workbench — Phase 2 Streamlit Application
 Team T094, Section E
 
-Seven-page interactive workspace for causal reasoning, DAG extraction,
-and Bayesian intervention queries. Uses classical ML only (no neural models).
+Interactive neural extraction, reviewed DAGs and Bayesian intervention queries,
+with retained classical baselines.
 """
 
 from pathlib import Path
@@ -47,13 +47,14 @@ st.markdown((ROOT / "assets/workbench.css").read_text().join(["<style>", "</styl
 # ── sidebar ──
 
 st.sidebar.markdown('<div class="brand">CAUSAL<span>WORKBENCH.</span></div>', unsafe_allow_html=True)
-st.sidebar.caption("T094 / SECTION E / PHASE 01")
+st.sidebar.caption("T094 / SECTION E / PHASE 02")
 
 page = st.sidebar.radio(
     "Workspace",
     [
         "Overview",
         "Walkthrough",
+        "Neural lab",
         "Reasoning lab",
         "Text → DAG",
         "Intervention lab",
@@ -67,7 +68,7 @@ page = st.sidebar.radio(
 st.sidebar.divider()
 st.sidebar.caption(
     "CAUSAL RESEARCH WORKSPACE\n\n"
-    "Classical ML · Bayesian networks\n\n"
+    "DistilBERT · Bayesian networks\n\n"
     "T094 · FOUR RESEARCHERS · ONE WORKSPACE"
 )
 
@@ -102,7 +103,7 @@ selected_test = metrics_data["results"][selected_model_name]["test"]
 # ── top eyebrow ──
 
 st.markdown(
-    '<div class="eyebrow">NEURO-SYMBOLIC CAUSAL INFERENCE / PHASE 01</div>',
+    '<div class="eyebrow">NEURO-SYMBOLIC CAUSAL INFERENCE / PHASE 02</div>',
     unsafe_allow_html=True,
 )
 
@@ -112,8 +113,12 @@ st.markdown(
 # ═══════════════════════════════════════════════════
 
 if page == "Walkthrough":
-    from src.demo_ui import render_demo
-    render_demo()
+    from src.neural_ui import render_hybrid_walkthrough
+    render_hybrid_walkthrough()
+
+elif page == "Neural lab":
+    from src.neural_ui import render_neural_lab
+    render_neural_lab()
 
 elif page == "Overview":
     st.markdown('<div class="hero-kicker">LANGUAGE × STRUCTURE × INFERENCE</div>', unsafe_allow_html=True)
@@ -138,7 +143,7 @@ elif page == "Overview":
         <div class="stat"><small>TRAINING EXAMPLES</small><strong>{train_n:,}</strong></div>
         <div class="stat"><small>HELD-OUT EXAMPLES</small><strong>{test_n:,}</strong></div>
         <div class="stat"><small>TEST MACRO F1</small><strong>{macro_f1:.3f}</strong></div>
-        <div class="stat"><small>RESEARCH SCOPE</small><strong>Classical ML</strong></div>
+        <div class="stat"><small>RESEARCH SCOPE</small><strong>Neural + Bayesian</strong></div>
         </div>""",
         unsafe_allow_html=True,
     )
@@ -170,8 +175,8 @@ elif page == "Overview":
             unsafe_allow_html=True,
         )
         st.caption(
-            "Phase 1 uses classical ML and Bayesian inference. "
-            "No LLM API or neural model is used."
+            "Phase 2 adds fine-tuned DistilBERT and reviewed neural-to-DAG inference. "
+            "The text encoder runs locally on the server without a chat API."
         )
 
 
@@ -546,7 +551,7 @@ elif page == "Evaluation":
 elif page == "Team & viva":
     st.title("Prepared to explain it.")
     st.write(
-        "Team T094 · Section E · Phase 1 · Four current members"
+        "Team T094 · Section E · Phase 2 · Four current members"
     )
 
     team = pd.DataFrame(
