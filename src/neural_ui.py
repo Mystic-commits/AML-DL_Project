@@ -15,10 +15,17 @@ ROOT = Path(__file__).resolve().parents[1]
 
 
 @st.cache_resource(show_spinner='Loading the verified neural model…')
-def get_neural_model():
+def _load_neural_model(archive_sha256):
     from src.neural_runtime import OnnxExtractor, ensure_bundle
     manifest = json.loads((ROOT/'artifacts/neural/release.json').read_text())
+    if manifest['archive_sha256'] != archive_sha256:
+        raise ValueError('Release manifest changed while loading')
     return OnnxExtractor(ensure_bundle(manifest))
+
+
+def get_neural_model():
+    manifest = json.loads((ROOT/'artifacts/neural/release.json').read_text())
+    return _load_neural_model(manifest['archive_sha256'])
 
 
 def render_neural_lab():

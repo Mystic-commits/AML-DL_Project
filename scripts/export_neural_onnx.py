@@ -50,15 +50,15 @@ def main():
     if not np.allclose(reference, actual, atol=1e-4):
         raise ValueError(f'FP32 export parity failed: {error}')
     quantized = args.output / 'model.int8.onnx'
-    quantize_dynamic(str(fp32), str(quantized), per_channel=True,
-                     weight_type=QuantType.QInt8, op_types_to_quantize=['MatMul','Gather'])
+    quantize_dynamic(str(fp32), str(quantized), per_channel=False,
+                     weight_type=QuantType.QUInt8, op_types_to_quantize=['MatMul'])
     onnx.checker.check_model(str(quantized))
     ort.InferenceSession(str(quantized), options, providers=['CPUExecutionProvider'])
     shutil.copy2(checkpoint / 'tokenizer.json', args.output / 'tokenizer.json')
     metadata = {'format':1, 'architecture':'DistilBERT', 'variant':run['variant'], 'seed':run['seed'],
         'selected_epoch':run['selected_epoch'], 'model_id':run['config']['model_id'],
         'upstream_revision':run['config']['model_revision'], 'max_length':run['config']['max_length'],
-        'labels':run['config']['labels'], 'export':'dynamic_int8_onnx_cpu',
+        'labels':run['config']['labels'], 'export':'dynamic_uint8_matmul_onnx_cpu',
         'primary_selection':'Predeclared seed 42 weighted model; selected by development edge F1',
         'fp32_sample_logits_max_abs_error':error,
         'files':{p.name:file_sha(p) for p in [quantized,args.output/'tokenizer.json']},
