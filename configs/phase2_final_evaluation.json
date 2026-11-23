@@ -1,0 +1,16 @@
+{
+  "primary_variant": "fine_tuned_weighted",
+  "primary_seed": 42,
+  "primary_selection": "Fixed before held-out evaluation; epoch selected by development edge F1",
+  "replication_seeds": [17, 2026],
+  "ablations": ["frozen_encoder_weighted", "fine_tuned_unweighted"],
+  "bootstrap_resamples": 1000,
+  "bootstrap_seed": 42,
+  "bootstrap_unit": "normalized sentence group",
+  "paired_comparison": "primary neural minus frozen historical TF-IDF/LR on aligned test rows",
+  "deployment_variant": "primary_seed42_dynamic_INT8_ONNX",
+  "deployment_selection": "Quantization fixed before test inspection; report its metrics separately",
+  "no_test_threshold_tuning": true,
+  "no_seed_selection_using_test": true,
+  "graph_scope": "Controlled synthetic rain/sprinkler case study, not independently annotated real-world discovery"
+}
