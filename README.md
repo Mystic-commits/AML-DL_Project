@@ -94,4 +94,6 @@ The [deployment notes](docs/deployment.md) describe hosting from `main` with ent
 
 Yug Johri, Vidit Sachan, Aditya Verma and Ishita Thakur.
 
+**Vidit Sachan** designed and implemented the data engineering and fair-comparison protocol for Phase 2: SemEval partition alignment, leakage audit (17 overlapping test rows removed), entity masking with `[E1]`/`[E2]` transformer tokens, and the cryptographic data manifest (`data_audit.json`) used to verify split integrity before training.
+
 Special Mention: Kaavya Gala.
