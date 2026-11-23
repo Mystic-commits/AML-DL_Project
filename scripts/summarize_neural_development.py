@@ -68,7 +68,7 @@ def main():
     axes[2].set_ylim(0,1)
     handles, names = axes[2].get_legend_handles_labels()
     fig.legend(handles, names, loc='lower center', ncol=3, fontsize=9)
-    fig.suptitle('Development only: one seed, identical data partitions. Test evaluation pending.', fontsize=11)
+    fig.suptitle('Development curves for checkpoint selection: seed 42, identical data partitions.', fontsize=11)
     fig.tight_layout(rect=(0,.1,1,.93))
     fig.savefig(args.output / 'learning_curves.png', dpi=160)
     plt.close(fig)
