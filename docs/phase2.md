@@ -1,8 +1,8 @@
 # Phase 2: neural extraction and Bayesian reasoning
 
-Status: implementation in progress. Existing Phase 1 results remain historical baselines. No deep-learning score is claimed until training and held-out evaluation finish.
+Status: completed and held-out evaluated on 23 November 2026. Five full neural training runs, a public CPU-compatible release, hosted integration, ablations, stability checks and numeric verification are available. Phase 1 results remain separately labelled historical baselines.
 
-## Five-day delivery plan
+## Original five-day delivery plan (historical)
 
 | Day (IST) | Work | Completion evidence |
 |---|---|---|
@@ -70,7 +70,7 @@ Prepared corpus text lives in ignored `data/processed/phase2_extraction`. A fres
 - All 22 local tests passed, including the existing Streamlit pages. The historical extraction verifier passed.
 - `artifacts/phase2/smoke_report.json` is an engineering receipt, not a trained release or an extraction score. The checkpoint stays local and is not offered in the hosted app.
 
-Next milestone: implement the full epoch-based training runner, learning curves, development-only checkpoint selection and frozen-encoder ablation. Do not use the two-step smoke checkpoint for evaluation or deployment.
+Historical Day 1 checkpoint: superseded by the completed Day 2 and final runs below. The two-step smoke checkpoint is not deployed.
 
 ## Completed: Day 2 (13 November)
 
@@ -88,7 +88,7 @@ The frozen encoder stays in evaluation mode with its parameters disabled for gra
 
 The fine-tuned run updated 66,957,315 parameters. The frozen run trained 592,899 head parameters. Training plus per-epoch development evaluation/checkpoint saving took approximately 205 seconds and 54 seconds respectively on this Apple GPU; these are observed local run durations, not deployment latency benchmarks. The final checkpoint-reload maximum probability differences were below 0.000003 for both runs. Fine-tuned development F1 improved across four epochs while cross-entropy reached its minimum earlier; confidence calibration is not established by this experiment.
 
-Evidence: `artifacts/phase2/development/day2_20261113/` contains the comparison, learning curves, epoch histories, aligned development predictions, full run configuration/environment/hash records and verification receipts. Full corpus text and checkpoint weights remain local under ignored directories. There is one neural seed per variant so far; repeated seeds, loss ablations and held-out testing remain scheduled for Day 4.
+Evidence: `artifacts/phase2/development/day2_20261113/` contains the comparison, learning curves, epoch histories, aligned development predictions, full run configuration/environment/hash records and verification receipts. Full corpus text and checkpoint weights remain local under ignored directories. This historical Day 2 snapshot contains one seed per variant. The final evaluation below adds repeated weighted seeds, the loss ablation and held-out testing.
 
 ### Reproduce Day 2
 
@@ -107,4 +107,45 @@ python -m scripts.verify_neural_run artifacts/phase2/development/day2_20261113/f
 python -m scripts.verify_neural_run artifacts/phase2/development/day2_20261113/frozen_encoder_weighted_seed42 --portable
 ```
 
-Next milestone: Day 3 reviewed neural candidate integration with the existing DAG and Bayesian workflow. The public app still serves evaluated classical models until that integration and its hosting checks are ready.
+The final deployment below supersedes this historical Day 2 integration status.
+
+
+## Completed final evaluation and integration (23 November)
+
+| Held-out model | Directed edge F1 |
+|---|---:|
+| Lexical | 0.742 |
+| Context TF-IDF/LR | 0.820 |
+| Weighted fine-tuning, seed 42 — predeclared primary | 0.870 |
+| Weighted fine-tuning, seed 17 | 0.875 |
+| Weighted fine-tuning, seed 2026 | 0.873 |
+| Frozen encoder, weighted head, seed 42 | 0.306 |
+| Unweighted fine-tuning, seed 42 | 0.899 |
+| Primary model after portable 8-bit deployment export | 0.866 |
+
+The primary checkpoint is selected on development edge F1, with primary variant/seed fixed before held-out evaluation in `configs/phase2_final_evaluation.json`. All models use the identical retained test rows and source groups. No test threshold tuning or test-based seed selection is performed. The primary 95% group-bootstrap interval is [0.842, 0.897]; the paired improvement over ML is [0.0234, 0.0792] in F1 units. The primary difference is 0.0509, or 5.09 F1 points. Three weighted seeds have mean 0.872998 and sample SD 0.002370. Unweighted fine-tuning wins this seed-42 ablation; further unweighted seeds have not been run. Frozen-head hyperparameters were not independently tuned.
+
+`artifacts/phase2/final_evaluation/` includes aligned predictions, hashes, full metrics, training records, replication and deployment comparisons, and the controlled graph query evidence. `artifacts/phase2/development/final_20261123/` includes weighted/frozen/unweighted development learning curves and records. Neither a classifier score nor a graph-validity result establishes real-world causality.
+
+The synthetic graph case starts with four model-proposed edges, three correct under the supplied generator (raw edge P/R/F1 0.75/1.0/0.857). Structure checks keep the three-edge DAG and reject wet_grass → rain. Validated case P/R/F1 is 1/1/1, explicitly a single scripted known-generator case rather than a real-world graph benchmark. BDeu-smoothed CPDs use 6,000 binary observations; maximum intervention error against the known generator is 0.01051. No individual counterfactual claim is made.
+
+### Reproduce final training and evaluation
+
+Install `requirements-dl.txt`, prepare the pinned corpus, and use fresh output paths. The existing seed-42 weighted/frozen checkpoints can be reproduced with the Day 2 commands above.
+
+```sh
+python -m scripts.train_neural --variant fine_tuned_weighted --seed 17 --output artifacts/phase2/runs/repro_weighted17
+python -m scripts.train_neural --variant fine_tuned_weighted --seed 2026 --output artifacts/phase2/runs/repro_weighted2026
+python -m scripts.train_neural --variant fine_tuned_unweighted --seed 42 --output artifacts/phase2/runs/repro_unweighted42
+python -m scripts.export_neural_onnx --help
+python -m scripts.evaluate_neural_final --help
+python -m scripts.verify_final_results artifacts/phase2/final_evaluation
+```
+
+For a complete re-evaluation, pass all five freshly reproduced run directories to `evaluate_neural_final --runs`, the portable primary ONNX bundle directory to `--onnx`, and a fresh directory to `--output`. `--help` documents required export arguments. Stored probability arrays/full corpus/checkpoints stay local; compact predictions and numerical evidence are committed. The independent final verifier runs without PyTorch and reconstructs all ten reported models from saved test predictions. It checks available hashes, split alignment, seed statistics, graph acceptance and oracle values.
+
+### Deployment
+
+Release `phase2-v1.1` uses unsigned 8-bit MatMul quantization with floating embeddings. Signed Gather quantization was replaced after a cross-platform prediction failure; the old v1.0 export is superseded. Public release, model byte size and SHA-256 are pinned in `artifacts/neural/release.json`. Model cache keys include the release archive hash. Linux CI checks real forward, reverse and no-relation predictions, while Streamlit tests check review/fit gates. The cloud host needs ONNX Runtime and tokenizers, not PyTorch or Transformers. Warm local CPU latency of 5.23 ms is a 20-probe, two-thread measurement, not a cloud latency guarantee.
+
+Reports, slide decks and study material remain separate submission artifacts outside the code repository, as requested. The original five-day plan above records intended milestones; work was finalised on 23 November, not backdated.

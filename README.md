@@ -1,14 +1,18 @@
 # Causal Workbench
 
-Classical machine learning for causal claim reasoning and directed relation extraction, with reviewed graphs and Bayesian intervention queries. Team T094, Section E. Phase 1 baseline with a Phase 2 neural extension in progress.
+Fine-tuned DistilBERT for directed relation extraction, connected to reviewed graphs and Bayesian intervention queries. Classical baselines remain available for fair comparison. Team T094, Section E.
 
 **[Open the live Streamlit app](https://causal-workbench-t094.streamlit.app/)**
 
-## Phase 2 development
+## Phase 2 results
 
-DistilBERT fine-tuning and a frozen-encoder control are complete for seed 42. Their **development** directed edge F1 scores are **0.839** and **0.380**, versus the historical TF-IDF/LR development score of **0.739** on the same split. The hosted Neural lab and Walkthrough now connect DistilBERT candidates to review, graph validation and Bayesian fitting. Final held-out results are being evaluated. These development-selected scores do not establish a test-set improvement.
+The predeclared primary DistilBERT achieves **test directed edge F1 0.870**, compared with **0.820** for TF-IDF/Logistic Regression on the same 2,700 held-out pairs. The primary improvement is **5.09 F1 points** (paired sentence-group bootstrap 95% interval +2.34 to +7.92 points). Three weighted seeds score 0.870/0.875/0.873: mean 0.873, sample SD 0.0024.
 
-See the [five-day plan, training commands and evaluation contract](docs/phase2.md) and [verified development results](artifacts/phase2/development/day2_20261113/summary.json). The Phase 1 results below remain the existing held-out baselines.
+The unweighted seed-42 ablation scores **0.899**, outperforming the weighted primary; the frozen-encoder control scores **0.306** under the same budget without its own learning-rate tuning. These negative ablation findings are reported rather than hidden or used to select a primary after testing. The portable hosted 8-bit model scores **0.866**.
+
+**Start in Walkthrough:** DistilBERT proposes relations → review → DAG checks → Bayesian fitting from matching observations → observation versus intervention. The graph case is controlled and synthetic, not evidence of automatic real-world causal discovery. Given entity spans are a task assumption.
+
+[Final predictions and measured results](artifacts/phase2/final_evaluation/) · [Architecture, training and evaluation](docs/phase2.md) · [Published model release](https://github.com/Mystic-commits/AML-DL_Project/releases/tag/phase2-v1.1)
 
 ## Run locally
 
@@ -20,16 +24,17 @@ python3.12 -m venv .venv
 .venv/bin/python -m streamlit run app.py
 ```
 
-Open `http://localhost:8501`. On macOS, `run.command` launches the app after environment setup. Bundled JSON model snapshots and demo inputs allow inference without dataset downloads or API keys.
+Open `http://localhost:8501`. On macOS, `run.command` launches the app after environment setup. Classical JSON snapshots and demo inputs are bundled. The neural model downloads its checksum-verified public release on first use and is then cached; no API key is needed. Training is never run by the app.
 
 ## What the app does
 
-- **Walkthrough:** guided synthetic example, from candidate review to DAG validation, Bayesian fitting and intervention queries.
+- **Walkthrough:** actual DistilBERT extraction followed by review, DAG validation, Bayesian fitting and intervention queries in a controlled synthetic example.
+- **Neural lab:** interactive three-class extraction with the deployed ONNX DistilBERT model.
 - **Reasoning lab:** binary claim entailment using the saved Corr2Cause classifier.
 - **Extraction benchmark:** directed classification between supplied entity spans using a separate SemEval model.
 - **Text → DAG:** review candidate relations, reject invalid edges, and fit probability tables from matching binary observations.
 - **Intervention lab:** compare observation with intervention in the rain/sprinkler teaching system.
-- **Evaluation:** inspect baselines, data summaries, shortcut diagnostics and validation results.
+- **Evaluation:** final neural/ML comparison, ablations, learning curves, seed stability and retained classical task audits.
 
 See [app usage](docs/usage.md) for input formats and the guided workflow.
 
@@ -59,6 +64,8 @@ run.command            Optional macOS launcher
 
 | Task | Model or comparison | Held-out metric |
 |---|---|---:|
+| SemEval directed extraction | Primary DistilBERT / deployed 8-bit | Edge F1 0.870 / 0.866 |
+| SemEval ablations | Frozen encoder / unweighted fine-tuning | Edge F1 0.306 / 0.899 |
 | Corr2Cause entailment | TF-IDF + balanced Logistic Regression | Macro F1 0.700 |
 | Corr2Cause entailment | Majority baseline / Naive Bayes | Macro F1 0.460 / 0.465 |
 | Corr2Cause shortcut control | Hypothesis only | Macro F1 0.653 |
@@ -73,6 +80,7 @@ The Bayesian teaching system uses 6,000 synthetic observations and a supplied ge
 
 ```sh
 .venv/bin/python -m pytest -q
+.venv/bin/python -m scripts.verify_final_results artifacts/phase2/final_evaluation
 .venv/bin/python -m scripts.verify_extraction_run artifacts/runs/phase1_extraction_verified_20261101 --portable
 ```
 

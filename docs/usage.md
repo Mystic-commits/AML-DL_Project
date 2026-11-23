@@ -4,7 +4,7 @@ Open https://causal-workbench-t094.streamlit.app/ or run `python -m streamlit ru
 
 ## Guided example
 
-1. Select **Walkthrough** and read the four source statements.
+1. Select **Walkthrough**, read the four source statements and press **Extract with DistilBERT**. Four actual model predictions appear; nothing enters a graph automatically.
 2. Tick the review checkbox. The builder accepts three edges and rejects wet_grass → rain because it would close a cycle in source order.
 3. Confirm the supplied synthetic-generator assumptions and press **Learn from the example data**.
 4. Toggle the sprinkler OFF and ON. Compare observed and intervention probabilities with the known generating-process answer.
@@ -25,3 +25,10 @@ In **Text → DAG**, enter simple affirmative clauses using 'causes', 'leads to'
 To fit the accepted graph, upload complete binary CSV observations with columns matching canonical node names. Alternatively choose the labelled synthetic rain/sprinkler/wet_grass observations for a compatible teaching graph. Supply reviewer, causal rationale and both assumptions. Fitting remains disabled until these prerequisites are complete. Fitted probabilities come from observations, never classifier scores.
 
 **Intervention lab** provides the fixed rain/sprinkler example directly. Observation retains the original incoming mechanisms; intervention removes incoming edges to the fixed variable. Results depend on the supplied causal assumptions and answer population intervention questions rather than individual counterfactuals.
+
+
+## Phase 2 neural model
+
+In **Neural lab**, try the forward, reverse and no-relation examples before writing your own. Keep exactly one marked `<e1>...</e1>` and `<e2>...</e2>` span. Press **Extract relation**; the model reports its predicted class and uncalibrated score. Predicted edges preserve source IDs and become available for individual review in Text → DAG. Arbitrary prose can fail: given entity spans and the training corpus define the evaluated task.
+
+**Evaluation** starts with final neural extraction results, deployed-model metrics, negative ablations, three weighted seeds and development curves. The earlier Corr2Cause binary entailment table is separately labelled. An eight-bit deployed prediction can differ from the full-precision primary checkpoint, and neither score measures real-world causal truth.

@@ -10,7 +10,7 @@ Public URL: https://causal-workbench-t094.streamlit.app/
 - Dependencies: requirements.txt
 - Secrets: none required
 
-The application reads bundled JSON model snapshots rather than downloading or training models at startup. Bayesian demo fitting is cached. Uploaded observations remain in the current Streamlit session and are not written to the repository or application filesystem by the app.
+Classical inference reads bundled JSON snapshots. Neural inference downloads the checksum-verified public `phase2-v1.1` archive on first use and caches it by SHA-256. ONNX Runtime runs the portable unsigned-8-bit MatMul model on CPU with two threads. No model is trained at startup. Bayesian demo fitting is cached. Uploaded observations remain in the current Streamlit session and are not written to the repository or application filesystem by the app.
 
 ## Startup and usage
 
@@ -23,3 +23,8 @@ Push reviewed changes to main. In the Streamlit workspace, use Manage app to ins
 ## Visual system
 
 Application palette: paper #F8F4EC, deep red #BF092F, warm ink #594832. Poppins fonts are locally bundled with their OFL license. The bundled grayscale research image is used on the overview page. App styling is in assets/workbench.css and .streamlit/config.toml.
+
+
+## Verified neural release
+
+The public asset is pinned in `artifacts/neural/release.json` (about 114.9 MB compressed, 138.9 MB ONNX model). Python runtime requirements include ONNX Runtime and tokenizers; the hosted app does not install the optional torch/transformers training stack. ZIP validation limits file names, paths and expanded sizes. CPU integration CI tests the actual downloaded model on Linux, including forward/reverse/no-relation examples. Quantized held-out edge F1 is 0.865762, compared with 0.870482 full precision; 16/2,700 argmax predictions differ. The superseded v1.0 signed-Gather model must not be used.
